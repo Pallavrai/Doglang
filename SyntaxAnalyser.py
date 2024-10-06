@@ -17,7 +17,7 @@ class Error:
     def __init__(self,error):
         raise Exception(f'Syntax Error: {error}')
 
-class SyntaxAnalyser:
+class SyntaxAnalyser(SymbolTable):
     def __init__(self,token) -> None:
         self.token=token
         self.current=0
@@ -54,9 +54,21 @@ class SyntaxAnalyser:
         
         if token.token_type == Tokens.KEYWORD and token.value=='bark':
             return self.print_stmt()
+        elif token.token_type == Tokens.IDENTIFIER:
+            return self.assignment()
         else:
             Error("Unexpected Token.")
     
+    def assignment(self):
+        node=AST("assignment")
+        id = self.current_element().value #To get identifier name
+        self.match(Tokens.IDENTIFIER) # identifier
+        self.match(Tokens.ASSIGNMENT_OP,'=')  #checks for =
+
+        value=self.current_element().value #To get value assigned to identifier
+        self.match(Tokens.LITERAL) #number or string
+        self.insert(id,"int","local",value)
+        
     def print_stmt(self):
         node=AST("print")
         self.match(Tokens.KEYWORD,'bark') #bark keyword
@@ -79,12 +91,15 @@ class SyntaxAnalyser:
 
 
 if __name__ == "__main__":
-    code = "bark(x)"
+    code = "x=456456745 bark(x)"
     tokens=Tokenizer(code)
     print(tokens)
     parse=SyntaxAnalyser(tokens)
     ast=parse.parse()    
     print(ast)
+    st=SymbolTable()
+    print(st.lookup("x").value)
+    
 
 
 
