@@ -7,13 +7,18 @@ class Interpreter:
     def visit(self):
          for child in self.ast.children: #visit program childs
              if child.type == "print":
-                 print(child.children)
+                 return self.print_stmt(child.children)
+    def print_stmt(self,children):
+        for child in children:
+            varName=child.value
+            st=SymbolTable()
+            print(st.lookup(varName).value)
 
 
 if __name__ == "__main__":
-    code = "bark(x)"
+    code = "x=34 bark(x)"
     tokens=Tokenizer(code)
-    print(tokens)
+    
     parse=SyntaxAnalyser(tokens)
     ast=parse.parse()
     obj=Interpreter(ast)    

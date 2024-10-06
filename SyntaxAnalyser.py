@@ -65,9 +65,11 @@ class SyntaxAnalyser(SymbolTable):
         self.match(Tokens.IDENTIFIER) # identifier
         self.match(Tokens.ASSIGNMENT_OP,'=')  #checks for =
 
-        value=self.current_element().value #To get value assigned to identifier
+        literal=self.current_element() #To get value assigned to identifier
+        node.addchild(AST(literal.token_type,literal.value))
         self.match(Tokens.LITERAL) #number or string
-        self.insert(id,"int","local",value)
+        self.insert(id,"int","local",literal.value)
+        return node
         
     def print_stmt(self):
         node=AST("print")
