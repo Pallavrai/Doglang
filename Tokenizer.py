@@ -15,6 +15,9 @@ class Tokens:
     IDENTIFIER = 'IDENTIFIER'
     ASSIGNMENT_OP = 'ASSIGNMENT_OP'
     LITERAL = 'LITERAL'
+    #LITERALS
+    INT_LITERAL= 'INT_LITERAL'
+    STRING_LITERAL='STRING_LITERAL'
     ARITHMETIC_OP = 'ARITHMETIC_OP'
     COMPARISON_OP = 'COMPARISON_OP'
     LOGICAL_OP = 'LOGICAL_OP'
@@ -25,7 +28,12 @@ class Tokens:
     COMMENT = 'COMMENT'
 
 # Sample list of keywords (add more based on the language)
-keywords = {'let', 'if', 'else', 'for', 'while', 'return', 'int', 'float', 'char','bark'}
+"""
+bark -> print
+wagtail -> loop
+
+"""
+keywords = {'bark','wagtail'}
 
 # Operators and separators for various token types
 arithmetic_operators = {'+', '-', '*', '/', '%'}
@@ -35,24 +43,6 @@ parentheses = {'(', ')'}
 curly_braces = {'{', '}'}
 separators = {',', '.'}
 semicolon = ';'
-
-"""Symbol Table(name,type,scope,value)"""
-class SymbolTable:
-    symbols=[]
-    def __init__(self,name="",type="",scope="",value=""):
-        self.name=name
-        self.type=type
-        self.scope=scope
-        self.value=value
-
-    def insert(self,name,type,scope,value):
-        self.symbols.append(SymbolTable(name,type,scope,value))
-
-    def lookup(self,name):
-        for entry in self.symbols:
-            if entry.name==name:
-                return entry
-        return None
 
 # Tokenizer function
 def Tokenizer(code):
@@ -76,7 +66,7 @@ def Tokenizer(code):
 
         # Check for literals (numbers)
         elif word.isdigit():
-            tokens.append(Token(Tokens.LITERAL, word))
+            tokens.append(Token(Tokens.INT_LITERAL, word))
 
         # Check for arithmetic operators
         elif word in arithmetic_operators:
@@ -114,5 +104,5 @@ def Tokenizer(code):
     return tokens
 
 if __name__ == "__main__":
-    code = "bark(x)"
+    code = "x=3+4 bark(x)"
     print(Tokenizer(code))
