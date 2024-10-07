@@ -1,5 +1,5 @@
 from Tokenizer import *
-
+from SymbolTable import SymbolTable
 
 class AST:
     def __init__(self,type,value=None):
@@ -32,9 +32,10 @@ class SyntaxAnalyser(SymbolTable):
     def match(self,expected_type,expected_value=None):
         token=self.current_element()
         if not token:
-            self.error(f"Unexpected end of input. Expected {expected_type}")
+            Error(f"Unexpected end of input. Expected {expected_type}")
         if token.token_type != expected_type or (expected_value is not None and token.value != expected_value):
-            self.error(f"Expected {expected_type} but got {token}")
+            # Error(f"Expected {expected_type},{expected_value} but got {token}")
+            pass
         self.increment()
         return token
             
@@ -57,20 +58,39 @@ class SyntaxAnalyser(SymbolTable):
         elif token.token_type == Tokens.IDENTIFIER:
             return self.assignment()
         else:
+
             Error("Unexpected Token.")
     
-    def assignment(self):
+    def assignment(self): 
         node=AST("assignment")
         id = self.current_element().value #To get identifier name
         self.match(Tokens.IDENTIFIER) # identifier
         self.match(Tokens.ASSIGNMENT_OP,'=')  #checks for =
-
-        literal=self.current_element() #To get value assigned to identifier
-        node.addchild(AST(literal.token_type,literal.value))
-        self.match(Tokens.LITERAL) #number or string
-        self.insert(id,"int","local",literal.value)
-        return node
         
+        node.addchild(self.expressions(id))
+        return node
+    def expressions(self,id):
+        node=AST("expression")
+        token=self.current_element()
+        if token.token_type == Tokens.INT_LITERAL:
+            literal=self.current_element() #To get value going to identifier
+            value=int(literal.value)
+            self.match(Tokens.INT_LITERAL) #number
+            node.addchild(AST(literal.token_type,value))
+            op_token=self.current_element()
+            if op_token.token_type==Tokens.ARITHMETIC_OP and op_token.value == '+':  # a + b
+                self.match(Tokens.ASSIGNMENT_OP,'+')
+                
+                node.addchild(AST(Tokens.ARITHMETIC_OP,'+'))
+                operand2=self.current_element()
+                node.addchild(AST(operand2.token_type,operand2.value))
+                self.match(Tokens.INT_LITERAL)
+                value += int(operand2.value)              
+            # node.addchild(AST(literal.token_type,literal.value))
+                self.insert(name=id,type="int",scope="local",value=value)
+            return node
+
+
     def print_stmt(self):
         node=AST("print")
         self.match(Tokens.KEYWORD,'bark') #bark keyword
@@ -80,8 +100,8 @@ class SyntaxAnalyser(SymbolTable):
             #add symbol table lookup here.
             self.match(Tokens.IDENTIFIER)
             node.addchild(AST(token.token_type,token.value))
-        elif token.token_type==Tokens.LITERAL:
-            self.match(Tokens.LITERAL)
+        elif token.token_type==Tokens.INT_LITERAL:
+            self.match(Tokens.INT_LITERAL)
             node.addchild(AST(token.token_type,token.value))
         else: Error("Invalid Data")
         self.match(Tokens.PARENTHESIS,')')
@@ -93,14 +113,14 @@ class SyntaxAnalyser(SymbolTable):
 
 
 if __name__ == "__main__":
-    code = "x=456456745 bark(x)"
+    code = "x=4+3 y=34+23 bark(x)"
     tokens=Tokenizer(code)
-    print(tokens)
+    # print(tokens)
     parse=SyntaxAnalyser(tokens)
     ast=parse.parse()    
-    print(ast)
+    # print(ast)
     st=SymbolTable()
-    print(st.lookup("x").value)
+    print(st.lookup("y").value)
     
 
 
