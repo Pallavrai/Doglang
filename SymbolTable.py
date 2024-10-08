@@ -9,7 +9,7 @@ class SymbolTable:
 
     def insert(self,name,type,scope,value):
         symbols.append(SymbolTable(name,type,scope,value))
-
+    
     def lookup(self,name):
         for entry in symbols:
             if entry.name==name:

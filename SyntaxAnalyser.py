@@ -35,8 +35,7 @@ class SyntaxAnalyser(SymbolTable):
         if not token:
             Error(f"Unexpected end of input. Expected {expected_type}")
         if token.token_type != expected_type or (expected_value is not None and token.value != expected_value):
-            # Error(f"Expected {expected_type},{expected_value} but got {token}")
-            pass
+            Error(f"Expected {expected_type},{expected_value} but got {token}")
         self.increment()
         return token
             
@@ -58,8 +57,21 @@ class SyntaxAnalyser(SymbolTable):
             return self.print_stmt()
         elif token.token_type == Tokens.IDENTIFIER:
             return self.assignment()
+        elif token.token_type == Tokens.KEYWORD and token.value=='wagtail':
+            return self.loop_stmt()
         else:
             Error("Unexpected Token.")
+
+    def loop_stmt(self):
+        node=AST("loop")
+        self.match(Tokens.KEYWORD,'wagtail')
+        node.addchild(self.expressions())
+        self.match(Tokens.CURLY_BRACE,'{')
+        while self.current_element().value != '}':
+            node.addchild(self.statement())
+        self.match(Tokens.CURLY_BRACE,'}')
+
+        return node
     
     def assignment(self): 
         node=AST("assignment")
@@ -69,21 +81,26 @@ class SyntaxAnalyser(SymbolTable):
         
         node.addchild(self.expressions(id))
         return node
-    def expressions(self,id):
+    def expressions(self,id=None):
         node=AST("expression")
         token=self.current_element()
         expression=""
-        if token.token_type == Tokens.INT_LITERAL:
-            while self.current_element().value != ';' and self.current_element().token_type!=Tokens.KEYWORD:
+        if token.token_type == Tokens.INT_LITERAL or token.token_type == Tokens.PARENTHESIS or token.token_type == Tokens.IDENTIFIER:
+            while self.current_element().value != ';' and self.current_element().token_type!=Tokens.KEYWORD and self.current_element().token_type!=Tokens.CURLY_BRACE:
                 current_token=self.current_element().value
-                expression+=current_token
+                if self.current_element().token_type==Tokens.IDENTIFIER:
+                    expression+=str(self.lookup(current_token).value)
+                else:
+                    expression+=current_token
                 self.increment()
-            print(expression)
             postfix_expr = infix_to_postfix(expression)
             root = build_parse_tree(postfix_expr)
             result = evaluate_parse_tree(root)
-            self.match(Tokens.SEMICOLON)
-            self.insert(name=id,type="int",scope="local",value=result)
+            
+            if self.current_element().value==';': self.match(Tokens.SEMICOLON)
+            node.addchild(AST(Tokens.INT_LITERAL,result))
+            if(id):
+                self.insert(name=id,type="int",scope="local",value=result)
         return node
 
 
@@ -109,14 +126,22 @@ class SyntaxAnalyser(SymbolTable):
 
 
 if __name__ == "__main__":
-    code = "x=34+23;  bark(x)"
+    code = """a=0;
+            wagtail(a<1){ 
+                bark(a)
+                a=a+10;
+            }"""
+    # code = """a=(10+2);
+    #           y=22;
+    #         """
     tokens=Tokenizer(code)
     # print(tokens)
     parse=SyntaxAnalyser(tokens)
     ast=parse.parse()    
-    # print(ast)
+    print(ast)
     st=SymbolTable()
-    print(st.lookup("x").value)
+    print(st.lookup("a").value)
+    # print(st.lookup("y").value)
     
     
 

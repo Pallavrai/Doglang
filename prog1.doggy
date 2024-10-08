@@ -1,4 +1,4 @@
-let a=10
+a=10;
 wagtail(a<10){
     bark("hello");
     a=a+1;
