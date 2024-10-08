@@ -1,5 +1,6 @@
 from Tokenizer import *
 from SymbolTable import SymbolTable
+from evaluator import *
 
 class AST:
     def __init__(self,type,value=None):
@@ -58,7 +59,6 @@ class SyntaxAnalyser(SymbolTable):
         elif token.token_type == Tokens.IDENTIFIER:
             return self.assignment()
         else:
-
             Error("Unexpected Token.")
     
     def assignment(self): 
@@ -72,23 +72,19 @@ class SyntaxAnalyser(SymbolTable):
     def expressions(self,id):
         node=AST("expression")
         token=self.current_element()
+        expression=""
         if token.token_type == Tokens.INT_LITERAL:
-            literal=self.current_element() #To get value going to identifier
-            value=int(literal.value)
-            self.match(Tokens.INT_LITERAL) #number
-            node.addchild(AST(literal.token_type,value))
-            op_token=self.current_element()
-            if op_token.token_type==Tokens.ARITHMETIC_OP and op_token.value == '+':  # a + b
-                self.match(Tokens.ASSIGNMENT_OP,'+')
-                
-                node.addchild(AST(Tokens.ARITHMETIC_OP,'+'))
-                operand2=self.current_element()
-                node.addchild(AST(operand2.token_type,operand2.value))
-                self.match(Tokens.INT_LITERAL)
-                value += int(operand2.value)              
-            # node.addchild(AST(literal.token_type,literal.value))
-                self.insert(name=id,type="int",scope="local",value=value)
-            return node
+            while self.current_element().value != ';' and self.current_element().token_type!=Tokens.KEYWORD:
+                current_token=self.current_element().value
+                expression+=current_token
+                self.increment()
+            print(expression)
+            postfix_expr = infix_to_postfix(expression)
+            root = build_parse_tree(postfix_expr)
+            result = evaluate_parse_tree(root)
+            self.match(Tokens.SEMICOLON)
+            self.insert(name=id,type="int",scope="local",value=result)
+        return node
 
 
     def print_stmt(self):
@@ -113,14 +109,15 @@ class SyntaxAnalyser(SymbolTable):
 
 
 if __name__ == "__main__":
-    code = "x=4+3 y=34+23 bark(x)"
+    code = "x=34+23;  bark(x)"
     tokens=Tokenizer(code)
     # print(tokens)
     parse=SyntaxAnalyser(tokens)
     ast=parse.parse()    
     # print(ast)
     st=SymbolTable()
-    print(st.lookup("y").value)
+    print(st.lookup("x").value)
+    
     
 
 

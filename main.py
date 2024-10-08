@@ -16,9 +16,8 @@ class Interpreter:
 
 
 if __name__ == "__main__":
-    code = "x=34 bark(x)"
+    code = "x=34+3; bark(x)"
     tokens=Tokenizer(code)
-    
     parse=SyntaxAnalyser(tokens)
     ast=parse.parse()
     obj=Interpreter(ast)    

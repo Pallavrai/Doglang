@@ -104,5 +104,5 @@ def Tokenizer(code):
     return tokens
 
 if __name__ == "__main__":
-    code = "x=3+4 bark(x)"
+    code = "x=3+4; bark(x)"
     print(Tokenizer(code))
