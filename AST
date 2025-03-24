@@ -1,5 +1,6 @@
 AST(Program, None, [
     AST(assignment, None, [
+        AST(IDENTIFIER, a, []), 
         AST(expression, None, [
             AST(INT_LITERAL, 23, []), 
             AST(ARITHMETIC_OP, +, []), 
@@ -18,6 +19,7 @@ AST(Program, None, [
             AST(IDENTIFIER, a, [])
         ]), 
         AST(assignment, None, [
+            AST(IDENTIFIER, a, []), 
             AST(expression, None, [
                 AST(IDENTIFIER, a, []), 
                 AST(ARITHMETIC_OP, +, []), 

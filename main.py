@@ -1,4 +1,4 @@
-from SyntaxAnalyser import *
+from SemanticAnalyser import SymbolTable,Tokenizer,SyntaxAnalyser,SemanticAnalyser
 
 class Interpreter:
     def __init__(self,ast):
@@ -20,5 +20,6 @@ if __name__ == "__main__":
     tokens=Tokenizer(code)
     parse=SyntaxAnalyser(tokens)
     ast=parse.parse()
+    sem = SemanticAnalyserls(ast)
     obj=Interpreter(ast)    
     obj.visit()

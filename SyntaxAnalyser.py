@@ -76,6 +76,7 @@ class SyntaxAnalyser(SymbolTable):
     def assignment(self): 
         node=AST("assignment")
         id = self.current_element().value #To get identifier name
+        node.addchild(AST(Tokens.IDENTIFIER,id))
         self.match(Tokens.IDENTIFIER) # identifier
         self.match(Tokens.ASSIGNMENT_OP,'=')  #checks for = 
         node.addchild(self.expressions(id))
