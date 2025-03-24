@@ -1,0 +1,34 @@
+from SymbolTable import SymbolTable
+from SyntaxAnalyser import AST, SyntaxAnalyser
+from Tokenizer import Tokenizer
+class SemanticCheck:
+    def traverseAST(self, target:str, node:AST):
+        if node is None:
+            return
+        if node.type == target:
+            self.check(node)
+        for child in node.children:
+            self.traverseAST(target, child)
+        
+    def check(self, node:AST):
+        print("Semantic Check: ", node.type, node.value)
+
+
+code = """  a=23+2;
+            wagtail(a<1){ 
+                bark(a)
+                a=a+10;
+            }"""
+    # code = """a=(10+2);
+    #           y=22;
+    #         """
+tokens=Tokenizer(code)
+# print(tokens)
+parse=SyntaxAnalyser(tokens)
+ast=parse.parse()
+semantic = SemanticCheck()
+semantic.traverseAST("INT_LITERAL", ast)    
+print(ast)
+
+st=SymbolTable()
+print(st.lookup("a").value)

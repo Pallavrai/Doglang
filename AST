@@ -1,0 +1,28 @@
+AST(Program, None, [
+    AST(assignment, None, [
+        AST(expression, None, [
+            AST(INT_LITERAL, 23, []), 
+            AST(ARITHMETIC_OP, +, []), 
+            AST(INT_LITERAL, 2, [])
+        ])
+    ]), 
+    AST(loop, None, [
+        AST(expression, None, [
+            AST(PARENTHESIS, (, []), 
+            AST(IDENTIFIER, a, []), 
+            AST(COMPARISON_OP, <, []), 
+            AST(INT_LITERAL, 1, []), 
+            AST(PARENTHESIS, ), [])
+        ]), 
+        AST(print, None, [
+            AST(IDENTIFIER, a, [])
+        ]), 
+        AST(assignment, None, [
+            AST(expression, None, [
+                AST(IDENTIFIER, a, []), 
+                AST(ARITHMETIC_OP, +, []), 
+                AST(INT_LITERAL, 10, [])
+            ])
+        ])
+    ])
+])

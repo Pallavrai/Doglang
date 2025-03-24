@@ -1,4 +1,4 @@
-from Tokenizer import *
+from Tokenizer import Tokens, Tokenizer
 from SymbolTable import SymbolTable
 from evaluator import *
 
@@ -77,30 +77,36 @@ class SyntaxAnalyser(SymbolTable):
         node=AST("assignment")
         id = self.current_element().value #To get identifier name
         self.match(Tokens.IDENTIFIER) # identifier
-        self.match(Tokens.ASSIGNMENT_OP,'=')  #checks for =
-        
+        self.match(Tokens.ASSIGNMENT_OP,'=')  #checks for = 
         node.addchild(self.expressions(id))
+        if self.lookup(id):
+            self.modify(id,self.expressions(id))
+
         return node
+    
     def expressions(self,id=None):
         node=AST("expression")
         token=self.current_element()
         expression=""
+        
         if token.token_type == Tokens.INT_LITERAL or token.token_type == Tokens.PARENTHESIS or token.token_type == Tokens.IDENTIFIER:
             while self.current_element().value != ';' and self.current_element().token_type!=Tokens.KEYWORD and self.current_element().token_type!=Tokens.CURLY_BRACE:
-                current_token=self.current_element().value
-                if self.current_element().token_type==Tokens.IDENTIFIER:
-                    expression+=str(self.lookup(current_token).value)
-                else:
-                    expression+=current_token
+                # current_token=self.current_element().value
+                # if self.current_element().token_type==Tokens.IDENTIFIER:
+                #     expression+=str(self.lookup(current_token).value)
+                # else:
+                #     expression+=current_token
+                node.addchild(AST(self.current_element().token_type,self.current_element().value))
+
                 self.increment()
-            postfix_expr = infix_to_postfix(expression)
-            root = build_parse_tree(postfix_expr)
-            result = evaluate_parse_tree(root)
-            
-            if self.current_element().value==';': self.match(Tokens.SEMICOLON)
-            node.addchild(AST(Tokens.INT_LITERAL,result))
-            if(id):
-                self.insert(name=id,type="int",scope="local",value=result)
+            # postfix_expr = infix_to_postfix(expression)
+            # root = build_parse_tree(postfix_expr)
+            # result = evaluate_parse_tree(root)
+            if self.current_element().value==';': 
+                self.match(Tokens.SEMICOLON)
+            # node.addchild(AST(Tokens.INT_LITERAL,result))
+            # if(id):
+            #     self.insert(name=id,type="int",scope="local",value=result)
         return node
 
 
@@ -126,7 +132,7 @@ class SyntaxAnalyser(SymbolTable):
 
 
 if __name__ == "__main__":
-    code = """a=0;
+    code = """a=23+2;
             wagtail(a<1){ 
                 bark(a)
                 a=a+10;
@@ -139,8 +145,8 @@ if __name__ == "__main__":
     parse=SyntaxAnalyser(tokens)
     ast=parse.parse()    
     print(ast)
-    st=SymbolTable()
-    print(st.lookup("a").value)
+    # st=SymbolTable()
+    # print(st.lookup("a").value)
     # print(st.lookup("y").value)
     
     
