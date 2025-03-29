@@ -4,8 +4,13 @@ from Tokenizer import Tokenizer
 from SemanticAnalyser import SemanticAnalyser
 
 class Interpreter:
-    def __init__(self):
+    def __init__(self,code):
         self.symbol_table = SymbolTable()
+        tokens=Tokenizer(code)
+        parse=SyntaxAnalyser(tokens)
+        ast=parse.parse()
+        SemanticAnalyser(ast)
+        self.visit(ast)
     
     def visit(self,ast):
         #  for child in ast.children: #visit program children
@@ -75,9 +80,5 @@ if __name__ == "__main__":
                     a=a+10
                 }
             """
-    tokens=Tokenizer(code)
-    parse=SyntaxAnalyser(tokens)
-    ast=parse.parse()
-    semantic = SemanticAnalyser(ast)
-    obj=Interpreter()  
-    obj.visit(ast)  
+    
+    Interpreter(code)
