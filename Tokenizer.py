@@ -7,7 +7,7 @@ class Token:
         self.value = value
 
     def __repr__(self):
-        return f"Token({self.token_type}, '{self.value}')"
+        return f"Token({self.token_type}, '{self.value}')\n"
 
 # Token categories/types
 class Tokens:
@@ -18,6 +18,7 @@ class Tokens:
     #LITERALS
     INT_LITERAL= 'INT_LITERAL'
     STRING_LITERAL='STRING_LITERAL'
+
     ARITHMETIC_OP = 'ARITHMETIC_OP'
     COMPARISON_OP = 'COMPARISON_OP'
     LOGICAL_OP = 'LOGICAL_OP'
@@ -48,12 +49,17 @@ semicolon = ';'
 def Tokenizer(code):
     tokens = []
 
-    # Regex to match identifiers, literals, operators, parentheses, curly braces, etc.
-    tokenized_code = re.findall(r'[A-Za-z_]\w*|\d+|==|!=|>=|<=|&&|\|\||[+\-*/%]=?|[(){};,]|[<>]|=', code)
+    # Using a more comprehensive regex pattern that includes string literals
+    pattern = r'"(?:\\.|[^"\\])*"|[A-Za-z_]\w*|\d+|==|!=|>=|<=|&&|\|\||[+\-*/%]=?|[(){};,]|[<>]|='
+    tokenized_code = re.findall(pattern, code)
 
     for word in tokenized_code:
+        # Check for string literals
+        if word.startswith('"') and word.endswith('"'):
+            tokens.append(Token(Tokens.STRING_LITERAL, word[1:-1]))  # Remove the quotes
+        
         # Check for keywords
-        if word in keywords:
+        elif word in keywords:
             tokens.append(Token(Tokens.KEYWORD, word))
 
         # Check for identifiers
@@ -106,7 +112,7 @@ def Tokenizer(code):
 if __name__ == "__main__":
     code = """a=10;
             wagtail(a<10){
-                bark("hello");
-                a=a+1;
+                bark("hello world")
+                a=a+1
             }"""
     print(Tokenizer(code))

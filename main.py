@@ -13,11 +13,6 @@ class Interpreter:
         self.visit(ast)
     
     def visit(self,ast):
-        #  for child in ast.children: #visit program children
-        #      if child.type == "print":
-        #          return self.print_stmt(child.children)
-        #      if child.type == "loop":
-        #          return self.loop_stmt(child.children)
         if ast.type == "Program":
             for child in ast.children:
                 self.visit(child)
@@ -39,8 +34,10 @@ class Interpreter:
     
     def print_stmt(self,children):
         for child in children:
-            varName=child.value
-            print(self.symbol_table.lookup(varName).value)
+            if child.type == "IDENTIFIER":
+                varName=child.value
+                print(self.symbol_table.lookup(varName).value)
+            elif child.type
 
     
     def loop_stmt(self,children):
@@ -56,9 +53,7 @@ class Interpreter:
                         self.visit(node)
                     # Then check the condition again (recursively)
                     self.loop_stmt(children)
-            else:
-                 pass
-                # If there's no condition, just
+          
             
     def expression_stmt(self,children):
         expression=""
@@ -76,7 +71,7 @@ class Interpreter:
 if __name__ == "__main__":
     code = """  a=0
                 wagtail(a<100){ 
-                    bark(a)
+                    bark("Hello World")
                     a=a+10
                 }
             """

@@ -1,0 +1,5 @@
+a=0
+wagtail(a<10){
+    bark("Hello")
+    a=a+1
+}

@@ -12,7 +12,21 @@ class AST:
         self.children.append(child)
     
     def __repr__(self) -> str:
-        return f'AST({self.type},{self.value},{self.children})'
+        return self._pretty_print()
+    
+    def _pretty_print(self, indent=0):
+        result = " " * indent + f"AST({self.type}, {self.value}, ["
+        
+        if not self.children:
+            result += "])"
+            return result
+            
+        result += "\n"
+        for child in self.children:
+            result += " " * (indent + 4) + child._pretty_print(indent + 4) + ",\n"
+        
+        result += " " * indent + "])"
+        return result
 
 class Error:
     def __init__(self,error):
