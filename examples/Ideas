@@ -1,0 +1,7 @@
+	•	fetch – for input (a = fetch("Enter the number"))
+	•	sit – for function definition (sit my_function())
+	•	stay – for conditionals (stay (x > 5) { ... })
+	•	rollover – for returning values (rollover x)
+	•	paw – for input (paw user_input)
+	•	howl – for error handling or exceptions (howl "Something went wrong!")
+	•	sniff – for checking conditions (like if-else, sniff (x == 5) { ... })

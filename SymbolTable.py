@@ -15,3 +15,10 @@ class SymbolTable:
             if entry.name==name:
                 return entry
         return None
+    
+    def modify(self,name,value):
+        for entry in symbols:
+            if entry.name==name:
+                entry.value=value
+                return
+        return None

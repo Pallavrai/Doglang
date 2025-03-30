@@ -1,24 +1,81 @@
-from SyntaxAnalyser import *
+from SymbolTable import SymbolTable
+from SyntaxAnalyser import SyntaxAnalyser
+from Tokenizer import Tokenizer
+from SemanticAnalyser import SemanticAnalyser
 
 class Interpreter:
-    def __init__(self,ast):
-        self.ast=ast
+    def __init__(self,code):
+        self.symbol_table = SymbolTable()
+        tokens=Tokenizer(code)
+        parse=SyntaxAnalyser(tokens)
+        ast=parse.parse()
+        SemanticAnalyser(ast)
+        self.visit(ast)
     
-    def visit(self):
-         for child in self.ast.children: #visit program childs
-             if child.type == "print":
-                 return self.print_stmt(child.children)
+    def visit(self,ast):
+        if ast.type == "Program":
+            for child in ast.children:
+                self.visit(child)
+
+        elif ast.type == "assignment":
+                self.assignment(ast.children)
+        elif ast.type == "print":
+                self.print_stmt(ast.children)
+        elif ast.type == "loop":
+                self.loop_stmt(ast.children)
+
+    def assignment(self,children):
+         name = children[0].value
+         expression = self.expression_stmt(children[1].children)
+         if self.symbol_table.lookup(name) is None:
+              self.symbol_table.insert(name=name,type="int",scope="local", value = expression)
+         else: #already exists variable just modify it
+              self.symbol_table.modify(name=name,value = expression)
+    
     def print_stmt(self,children):
+            for child in children:
+                if child.type == "expression":
+                    result=self.expression_stmt(child.children)
+                    print(result)
+            
+
+    
+    def loop_stmt(self,children):
+            # First, evaluate the condition
+            condition_node = next((child for child in children if child.type == "expression"), None)
+            body_nodes = [child for child in children if child.type != "expression"]
+            
+            if condition_node:
+                condition = self.expression_stmt(condition_node.children)
+                if condition:
+                    # Execute the body of the loop
+                    for node in body_nodes:
+                        self.visit(node)
+                    # Then check the condition again (recursively)
+                    self.loop_stmt(children)
+          
+            
+    def expression_stmt(self,children):
+        expression=""
         for child in children:
-            varName=child.value
-            st=SymbolTable()
-            print(st.lookup(varName).value)
+            if child.type == "STRING_LITERAL":
+                 return child.value
+            if child.type == "IDENTIFIER":
+                if self.symbol_table.lookup(child.value) is None:
+                    raise Exception("Variable not declared")
+                else:
+                    expression += str(self.symbol_table.lookup(child.value).value)
+            else:
+                expression += child.value
+        return eval(expression)
 
 
 if __name__ == "__main__":
-    code = "x=34+3; bark(x)"
-    tokens=Tokenizer(code)
-    parse=SyntaxAnalyser(tokens)
-    ast=parse.parse()
-    obj=Interpreter(ast)    
-    obj.visit()
+    code = """  a=0
+                wagtail(a<100){ 
+                    bark("Hello");
+                    a=a+10;
+                }
+            """
+    
+    Interpreter(code)

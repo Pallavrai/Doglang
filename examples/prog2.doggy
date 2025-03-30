@@ -1,0 +1,5 @@
+a=fetch("Enter the number")
+wagtail(a<10){
+    bark(a);
+    a=a+1;
+}
