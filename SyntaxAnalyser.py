@@ -106,39 +106,31 @@ class SyntaxAnalyser(SymbolTable):
         
         if token.token_type == Tokens.INT_LITERAL or token.token_type == Tokens.PARENTHESIS or token.token_type == Tokens.IDENTIFIER:
             while self.current_element().value != ';' and self.current_element().token_type!=Tokens.KEYWORD and self.current_element().token_type!=Tokens.CURLY_BRACE:
-                # current_token=self.current_element().value
-                # if self.current_element().token_type==Tokens.IDENTIFIER:
-                #     expression+=str(self.lookup(current_token).value)
-                # else:
-                #     expression+=current_token
+           
                 node.addchild(AST(self.current_element().token_type,self.current_element().value))
-
                 self.increment()
-            # postfix_expr = infix_to_postfix(expression)
-            # root = build_parse_tree(postfix_expr)
-            # result = evaluate_parse_tree(root)
+            
             if self.current_element().value==';': 
                 self.match(Tokens.SEMICOLON)
-            # node.addchild(AST(Tokens.INT_LITERAL,result))
-            # if(id):
-            #     self.insert(name=id,type="int",scope="local",value=result)
+          
         return node
 
 
     def print_stmt(self):
         node=AST("print")
         self.match(Tokens.KEYWORD,'bark') #bark keyword
-        self.match(Tokens.PARENTHESIS,'(') #( match
-        token=self.current_element()
-        if token.token_type == Tokens.IDENTIFIER:
-            #add symbol table lookup here.
-            self.match(Tokens.IDENTIFIER)
-            node.addchild(AST(token.token_type,token.value))
-        elif token.token_type==Tokens.INT_LITERAL:
-            self.match(Tokens.INT_LITERAL)
-            node.addchild(AST(token.token_type,token.value))
-        else: Error("Invalid Data")
-        self.match(Tokens.PARENTHESIS,')')
+        node.addchild(self.expressions())
+        # self.match(Tokens.PARENTHESIS,'(') #( match
+        # token=self.current_element()
+        # if token.token_type == Tokens.IDENTIFIER:
+        #     #add symbol table lookup here.
+        #     self.match(Tokens.IDENTIFIER)
+        #     node.addchild(AST(token.token_type,token.value))
+        # elif token.token_type==Tokens.INT_LITERAL:
+        #     self.match(Tokens.INT_LITERAL)
+        #     node.addchild(AST(token.token_type,token.value))
+        # else: Error("Invalid Data")
+        # self.match(Tokens.PARENTHESIS,')')
 
         return node
 
@@ -149,7 +141,7 @@ class SyntaxAnalyser(SymbolTable):
 if __name__ == "__main__":
     code = """a=23+2;
             wagtail(a<1){ 
-                bark(a)
+                bark("Hello world");
                 a=a+10;
             }"""
     # code = """a=(10+2);

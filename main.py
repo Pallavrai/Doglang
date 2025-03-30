@@ -33,11 +33,11 @@ class Interpreter:
               self.symbol_table.modify(name=name,value = expression)
     
     def print_stmt(self,children):
-        for child in children:
-            if child.type == "IDENTIFIER":
-                varName=child.value
-                print(self.symbol_table.lookup(varName).value)
-            elif child.type
+            for child in children:
+                if child.type == "expression":
+                    result=self.expression_stmt(child.children)
+                    print(result)
+            
 
     
     def loop_stmt(self,children):
@@ -58,6 +58,8 @@ class Interpreter:
     def expression_stmt(self,children):
         expression=""
         for child in children:
+            if child.type == "STRING_LITERAL":
+                 return child.value
             if child.type == "IDENTIFIER":
                 if self.symbol_table.lookup(child.value) is None:
                     raise Exception("Variable not declared")
@@ -71,7 +73,7 @@ class Interpreter:
 if __name__ == "__main__":
     code = """  a=0
                 wagtail(a<100){ 
-                    bark("Hello World")
+                    bark("Hello");
                     a=a+10
                 }
             """
