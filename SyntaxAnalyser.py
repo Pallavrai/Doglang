@@ -96,11 +96,18 @@ class SyntaxAnalyser(SymbolTable):
 
         return node
     
-    def expressions(self,id=None):
-        node=AST("expression")
+    def expressions(self):
         token=self.current_element()
-        
+
+        if token.token_type == Tokens.KEYWORD:
+            if token.value == "fetch":
+                self.match(Tokens.KEYWORD,'fetch')
+                node = AST(Tokens.KEYWORD,"input")
+                node.addchild(self.expressions())
+
+
         if token.token_type == Tokens.INT_LITERAL or token.token_type == Tokens.PARENTHESIS or token.token_type == Tokens.IDENTIFIER:
+            node=AST("expression")
             while self.current_element().value != ';':
                 if self.current_element().token_type == Tokens.CURLY_BRACE: 
                     return node
@@ -124,7 +131,7 @@ class SyntaxAnalyser(SymbolTable):
 
 
 if __name__ == "__main__":
-    code = """a=0;
+    code = """a=fetch("Enter your number: ");
               bark("Hello");
               wagtail(a<10){
                   a=a+1;

@@ -9,7 +9,7 @@ class Interpreter:
         tokens=Tokenizer(code)
         parse=SyntaxAnalyser(tokens)
         ast=parse.parse()
-        SemanticAnalyser(ast)
+        # SemanticAnalyser(ast)
         self.visit(ast)
     
     def visit(self,ast):
@@ -26,6 +26,12 @@ class Interpreter:
 
     def assignment(self,children):
          name = children[0].value
+         if children[1].value == 'input':
+              expression = children[1].children[0]
+              prompt = self.expression_stmt(expression.children)
+              val = input(prompt)
+              self.symbol_table.insert(name=name,type=type(val),scope="local", value = val)
+              return
          expression = self.expression_stmt(children[1].children)
          if self.symbol_table.lookup(name) is None:
               self.symbol_table.insert(name=name,type="int",scope="local", value = expression)
@@ -37,6 +43,7 @@ class Interpreter:
                 if child.type == "expression":
                     result=self.expression_stmt(child.children)
                     print(result)
+                    return result
             
 
     
@@ -71,11 +78,8 @@ class Interpreter:
 
 
 if __name__ == "__main__":
-    code = """  a=0;
-                wagtail(a<100){ 
-                    bark("Hello");
-                    a=a+10;
-                }
+    code = """  a=fetch("Enter your number: ");
+                bark(a);
             """
     
     Interpreter(code)

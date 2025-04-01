@@ -1,6 +1,6 @@
 import re
 
-# Define a sample Token class for demonstration
+
 class Token:
     def __init__(self, token_type, value):
         self.token_type = token_type
@@ -9,7 +9,7 @@ class Token:
     def __repr__(self):
         return f"Token({self.token_type}, '{self.value}')\n"
 
-# Token categories/types
+
 class Tokens:
     KEYWORD = 'KEYWORD'
     IDENTIFIER = 'IDENTIFIER'
@@ -28,15 +28,10 @@ class Tokens:
     SEMICOLON = 'SEMICOLON'
     COMMENT = 'COMMENT'
 
-# Sample list of keywords (add more based on the language)
-"""
-bark -> print
-wagtail -> loop
 
-"""
-keywords = {'bark','wagtail'}
+keywords = {'bark','wagtail','fetch'}
 
-# Operators and separators for various token types
+
 arithmetic_operators = {'+', '-', '*', '/', '%'}
 comparison_operators = {'==', '!=', '>', '<', '>=', '<='}
 logical_operators = {'&&', '||', '!'}
@@ -49,7 +44,7 @@ semicolon = ';'
 def Tokenizer(code):
     tokens = []
 
-    # Using a more comprehensive regex pattern that includes string literals
+
     pattern = r'"(?:\\.|[^"\\])*"|[A-Za-z_]\w*|\d+|==|!=|>=|<=|&&|\|\||[+\-*/%]=?|[(){};,]|[<>]|='
     tokenized_code = re.findall(pattern, code)
 
@@ -102,15 +97,15 @@ def Tokenizer(code):
         elif word == semicolon:
             tokens.append(Token(Tokens.SEMICOLON, word))
 
-        # Catch unrecognized tokens
+
         else:
             print(f"Unrecognized token: {word}")
 
-    # Output the list of tokens
+
     return tokens
 
 if __name__ == "__main__":
-    code = """a=10;
+    code = """a=fetch("Hello");
             wagtail(a<10){
                 bark("hello world")
                 a=a+1
