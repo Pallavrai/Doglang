@@ -1,6 +1,5 @@
 from Tokenizer import Tokens, Tokenizer
 from SymbolTable import SymbolTable
-from evaluator import *
 
 class AST:
     def __init__(self,type,value=None):
@@ -93,9 +92,7 @@ class SyntaxAnalyser(SymbolTable):
         node.addchild(AST(Tokens.IDENTIFIER,id))
         self.match(Tokens.IDENTIFIER) # identifier
         self.match(Tokens.ASSIGNMENT_OP,'=')  #checks for = 
-        node.addchild(self.expressions(id))
-        if self.lookup(id):
-            self.modify(id,self.expressions(id))
+        node.addchild(self.expressions())
 
         return node
     
