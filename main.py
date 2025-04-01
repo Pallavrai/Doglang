@@ -71,7 +71,7 @@ class Interpreter:
 
 
 if __name__ == "__main__":
-    code = """  a=0
+    code = """  a=0;
                 wagtail(a<100){ 
                     bark("Hello");
                     a=a+10;
