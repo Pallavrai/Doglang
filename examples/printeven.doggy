@@ -1,0 +1,8 @@
+a=0;
+wagtail(a<10)
+{
+    sniff(a%2==0){
+        bark(a);
+    }
+    a=a+1;
+}

@@ -42,7 +42,7 @@ a = 10;
 
 ### Print Statement
 ```
-bark(variable_name)
+bark(variable_name);
 ```
 
 ### Loop Statement
@@ -58,7 +58,7 @@ wagtail(condition) {
 ```
 a = 0;
 wagtail(a<100) { 
-    bark(a)
+    bark(a);
     a = a+10;
 }
 ```

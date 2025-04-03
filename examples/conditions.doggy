@@ -1,0 +1,6 @@
+a = 10;
+sniff(a%2==0){
+    bark("Even");
+}else{
+    bark("Odd");
+}

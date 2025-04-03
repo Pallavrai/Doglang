@@ -5,3 +5,4 @@
 	•	paw – for input (paw user_input)
 	•	howl – for error handling or exceptions (howl "Something went wrong!")
 	•	sniff – for checking conditions (like if-else, sniff (x == 5) { ... })
+	
