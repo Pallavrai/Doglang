@@ -72,6 +72,8 @@ class SyntaxAnalyser(SymbolTable):
             return self.assignment()
         elif token.token_type == Tokens.KEYWORD and token.value=='wagtail':
             return self.loop_stmt()
+        elif token.token_type == Tokens.KEYWORD and token.value=='sniff':
+            return self.conditional_statement()
         else:
             Error("Unexpected Token.")
 
@@ -96,6 +98,28 @@ class SyntaxAnalyser(SymbolTable):
 
         return node
     
+    def code_block(self):
+        node=AST("block")
+        self.match(Tokens.CURLY_BRACE,'{') 
+        while self.current_element().value != '}':
+            node.addchild(self.statement())
+        self.match(Tokens.CURLY_BRACE,'}')
+        return node
+    
+    def conditional_statement(self):
+        node=AST("conditional")
+        self.match(Tokens.KEYWORD)
+        node.addchild(self.expressions())
+        node.addchild(self.code_block())
+        if(self.current_element() and self.current_element().value == 'else'):
+            node.addchild(self.else_statement())
+        return node
+    def else_statement(self):
+        node = AST(Tokens.KEYWORD,"else")
+        self.match(Tokens.KEYWORD)
+        node.addchild(self.code_block())
+        return node
+
     def expressions(self):
         token=self.current_element()
 
@@ -131,11 +155,10 @@ class SyntaxAnalyser(SymbolTable):
 
 
 if __name__ == "__main__":
-    code = """a=fetch("Enter your number: ");
-              bark("Hello");
-              wagtail(a<10){
-                  a=a+1;
-              }
+    code = """a = 10;
+sniff(a%2==0){
+    bark("Even");
+}
 
         
             """

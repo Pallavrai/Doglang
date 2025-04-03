@@ -7,7 +7,7 @@ class Token:
         self.value = value
 
     def __repr__(self):
-        return f"Token({self.token_type}, '{self.value}')\n"
+        return f"\nToken({self.token_type}, '{self.value}')"
 
 
 class Tokens:
@@ -29,7 +29,7 @@ class Tokens:
     COMMENT = 'COMMENT'
 
 
-keywords = {'bark','wagtail','fetch'}
+keywords = {'bark','wagtail','fetch','sniff','else'}
 
 
 arithmetic_operators = {'+', '-', '*', '/', '%'}
@@ -105,9 +105,10 @@ def Tokenizer(code):
     return tokens
 
 if __name__ == "__main__":
-    code = """a=fetch("Hello");
-            wagtail(a<10){
-                bark("hello world")
-                a=a+1
-            }"""
+    code = """  a = 10;
+                sniff(a%2==0){
+                    bark("Even");
+                }else{
+                    bark("Odd");
+                }"""
     print(Tokenizer(code))

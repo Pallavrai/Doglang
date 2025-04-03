@@ -2,7 +2,7 @@ from SymbolTable import SymbolTable
 from SyntaxAnalyser import SyntaxAnalyser
 from Tokenizer import Tokenizer
 from SemanticAnalyser import SemanticAnalyser
-
+from error import Error
 class Interpreter:
     def __init__(self,code):
         self.symbol_table = SymbolTable()
@@ -13,7 +13,7 @@ class Interpreter:
         self.visit(ast)
     
     def visit(self,ast):
-        if ast.type == "Program":
+        if ast.type == "Program" or ast.type== "block":
             for child in ast.children:
                 self.visit(child)
 
@@ -23,6 +23,8 @@ class Interpreter:
                 self.print_stmt(ast.children)
         elif ast.type == "loop":
                 self.loop_stmt(ast.children)
+        elif ast.type == "conditional":
+                self.conditions(ast.children)
 
     def assignment(self,children):
          name = children[0].value
@@ -37,6 +39,19 @@ class Interpreter:
               self.symbol_table.insert(name=name,type="int",scope="local", value = expression)
          else: #already exists variable just modify it
               self.symbol_table.modify(name=name,value = expression)
+    
+    def conditions(self,children):
+         for child in children:
+              if child.type == "expression":
+                   check = self.expression_stmt(child.children)
+                   if type(check) is bool:
+                        if check:
+                            self.visit(children[1].children[0])
+                        else:
+                             if len(children) > 2:
+                                self.visit(children[2].children[0])
+                   else:
+                        Error("Type","Value inside sniff is not boolean.")
     
     def print_stmt(self,children):
             for child in children:
@@ -78,8 +93,14 @@ class Interpreter:
 
 
 if __name__ == "__main__":
-    code = """  a=fetch("Enter your number: ");
-                bark(a);
+    code = """ a=0;
+                wagtail(a<10)
+                {
+                    sniff(a%2==0){
+                        bark(a);
+                    }
+                    a=a+1;
+                }
             """
     
     Interpreter(code)
