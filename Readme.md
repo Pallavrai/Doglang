@@ -2,7 +2,7 @@
 
 # 🐕 Welcome to DogLang!
 
-DogLang is a fun, interpreted programming language I created with syntax inspired by our canine friends. With keywords like `bark` for printing and `wagtail` for loops, it brings a playful approach to coding.
+DogLang is a fun, interpreted programming language I created with syntax inspired by our canine friends. With keywords like `bark` for printing, `wagtail` for loops, and `sniff` for conditionals, it brings a playful approach to coding.
 
 ## 🚀 Join the Pack!
 
@@ -29,8 +29,10 @@ DogLang is a programming language with the following components:
 
 - Variable assignments
 - Arithmetic operations
+- Conditional statements (sniff)
 - Loop constructs (wagtail)
 - Print statements (bark)
+- Input (fetch)
 - Comparison operators
 
 ## Syntax Guide
@@ -48,21 +50,56 @@ bark(variable_name);
 ### Loop Statement
 ```
 wagtail(condition) {
-    // loop body
+  // loop body
 }
+```
+
+### Conditional Statement
+```
+sniff(condition) {
+  // if true
+} else {
+  // if false
+}
+```
+
+### Input Statement
+```
+a = fetch("Enter a value:");
 ```
 
 ## Examples
 
-### Basic Example
+### Basic Loop Example
 ```
 a = 0;
 wagtail(a<100) { 
-    bark(a);
-    a = a+10;
+  bark(a);
+  a = a+10;
 }
 ```
 This program initializes a variable `a` to 0, then loops while `a` is less than 100, printing the value of `a` and incrementing it by 10 each iteration.
+
+### Conditional Example
+```
+a = 10;
+sniff(a%2==0) {
+  bark("Even");
+} else {
+  bark("Odd");
+}
+```
+This program checks if variable `a` is even or odd and prints the result.
+
+### Input Example
+```
+a = fetch("Enter the number");
+wagtail(a<10) {
+  bark(a);
+  a = a+1;
+}
+```
+This program asks the user for a number and then counts from that number up to 10.
 
 ## How to Use DogLang
 
@@ -100,6 +137,9 @@ DogLang programs use the `.doggy` file extension.
 ### Keywords
 - `bark`: Print a value
 - `wagtail`: Loop construct
+- `sniff`: Conditional statement
+- `fetch`: Input from user
+- `else`: Alternative branch for conditionals
 
 ### Operators
 - Arithmetic: `+`, `-`, `*`, `/`, `%`
@@ -112,7 +152,7 @@ DogLang programs use the `.doggy` file extension.
 3. Variables don't need type declarations - they're inferred automatically
 
 ## Limitations
-- Currently only supports integer data type
+- Currently only supports integer and string data types
 - No function definitions
 - Limited error reporting
 
