@@ -1,5 +1,5 @@
-from Tokenizer import Tokens, Tokenizer
-from SymbolTable import SymbolTable
+from doglang.Tokenizer import Tokens, Tokenizer
+from doglang.SymbolTable import SymbolTable
 
 class AST:
     def __init__(self,type,value=None):

@@ -1,8 +1,9 @@
-from SymbolTable import SymbolTable
-from SyntaxAnalyser import SyntaxAnalyser
-from Tokenizer import Tokenizer
-from SemanticAnalyser import SemanticAnalyser
-from error import Error
+from doglang.SymbolTable import SymbolTable
+from doglang.SyntaxAnalyser import SyntaxAnalyser
+from doglang.Tokenizer import Tokenizer
+from doglang.SemanticAnalyser import SemanticAnalyser
+from doglang.error import Error
+
 class Interpreter:
     def __init__(self,code):
         self.symbol_table = SymbolTable()

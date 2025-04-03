@@ -9,9 +9,7 @@ doglang/Tokenizer.py
 doglang/__init__.py
 doglang/cli.py
 doglang/error.py
-doglang/evaluator.py
 doglang/main.py
-doglang/tutorial.py
 doglang.egg-info/PKG-INFO
 doglang.egg-info/SOURCES.txt
 doglang.egg-info/dependency_links.txt

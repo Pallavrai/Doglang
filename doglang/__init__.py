@@ -1,6 +1,5 @@
-from .main import Interpreter
-from .error import Error
-from .tutorial import show_tutorial
+from doglang.main import Interpreter
+from doglang.error import Error
 
 __version__ = "0.1.0"
-__all__ = ["Interpreter", "Error", "show_tutorial"]
+__all__ = ["Interpreter", "Error"]

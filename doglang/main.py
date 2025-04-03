@@ -1,8 +1,8 @@
-from .SymbolTable import SymbolTable
-from .SyntaxAnalyser import SyntaxAnalyser
-from .Tokenizer import Tokenizer
-from .SemanticAnalyser import SemanticAnalyser
-from .error import Error
+from doglang.SymbolTable import SymbolTable
+from doglang.SyntaxAnalyser import SyntaxAnalyser
+from doglang.Tokenizer import Tokenizer
+from doglang.SemanticAnalyser import SemanticAnalyser
+from doglang.error import Error
 
 class Interpreter:
     def __init__(self,code):
@@ -93,15 +93,3 @@ class Interpreter:
         return eval(expression)
 
 
-if __name__ == "__main__":
-    code = """ a=0;
-                wagtail(a<10)
-                {
-                    sniff(a%2==0){
-                        bark(a);
-                    }
-                    a=a+1;
-                }
-            """
-    
-    Interpreter(code)

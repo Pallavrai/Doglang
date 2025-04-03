@@ -104,11 +104,3 @@ def Tokenizer(code):
 
     return tokens
 
-if __name__ == "__main__":
-    code = """  a = 10;
-                sniff(a%2==0){
-                    bark("Even");
-                }else{
-                    bark("Odd");
-                }"""
-    print(Tokenizer(code))

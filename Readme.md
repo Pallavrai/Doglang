@@ -106,7 +106,7 @@ This program asks the user for a number and then counts from that number up to 1
 ### Installation
 Clone this repository to your local machine:
 ```
-git clone https://github.com/yourusername/doglang.git
+git clone https://github.com/pallavrai/doglang.git
 cd doglang
 ```
 
@@ -120,7 +120,7 @@ DogLang provides two ways to execute code:
 
 2. Directly from the command line:
    ```
-   python doglang.py -e "a=10; bark(a)"
+   python doglang.py -e "a=10; bark(a);"
    ```
 
 ### Additional Options
@@ -157,10 +157,8 @@ DogLang programs use the `.doggy` file extension.
 - Limited error reporting
 
 ## Project Structure
-- `doglang.py`: Main entry point for the interpreter
 - `Tokenizer.py`: Lexical analyzer
 - `SyntaxAnalyser.py`: Parser
 - `SemanticAnalyser.py`: Semantic analyzer
 - `main.py`: Interpreter implementation
 - `SymbolTable.py`: Symbol table for variable management
-- `evaluator.py`: Expression evaluation

@@ -1,7 +1,7 @@
 import sys
 import argparse
-from .main import Interpreter
-from .Tokenizer import Tokenizer
+from doglang.main import Interpreter
+from doglang.Tokenizer import Tokenizer
 
 #!/usr/bin/env python3
 

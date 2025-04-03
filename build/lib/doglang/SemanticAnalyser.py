@@ -1,6 +1,6 @@
-from SymbolTable import SymbolTable
-from SyntaxAnalyser import AST, SyntaxAnalyser
-from Tokenizer import Tokenizer
+from doglang.SymbolTable import SymbolTable
+from doglang.SyntaxAnalyser import AST, SyntaxAnalyser
+from doglang.Tokenizer import Tokenizer
 
 class SemanticAnalyser:
     def __init__(self,ast:AST):

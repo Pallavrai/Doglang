@@ -2,16 +2,6 @@ from setuptools import setup, find_packages
 from setuptools.command.install import install
 import os
 
-class PostInstallCommand(install):
-    def run(self):
-        install.run(self)
-        # Import and show tutorial after installation
-        try:
-            from doglang.tutorial import show_tutorial
-            show_tutorial()
-        except ImportError:
-            print("Could not display tutorial. You can view it later by running: python -m doglang.tutorial")
-
 setup(
     name="doglang",
     version="0.1.0",
@@ -36,7 +26,5 @@ setup(
             "doglang=doglang.cli:main",
         ],
     },
-    cmdclass={
-        'install': PostInstallCommand,
-    },
+   
 ) 
