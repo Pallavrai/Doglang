@@ -2,11 +2,16 @@ from setuptools import setup, find_packages
 from setuptools.command.install import install
 import os
 
+with open("README.md", "r", encoding="utf-8") as fh:
+    long_description = fh.read()
+
 setup(
     name="doglang",
     version="0.1.0",
     packages=find_packages(),
     description="A dog-themed programming language interpreter",
+    long_description=long_description,  # Add this line
+    long_description_content_type="text/markdown",  # Specify the content type
     author="Pallav Rai",
     author_email="pallavrai8953@gmail.com",
     url="https://github.com/Pallavrai/doglang",

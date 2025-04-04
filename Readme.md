@@ -104,15 +104,23 @@ This program asks the user for a number and then counts from that number up to 1
 ## How to Use DogLang
 
 ### Installation
+
+#### From GitHub
 Clone this repository to your local machine:
 ```
 git clone https://github.com/pallavrai/doglang.git
 cd doglang
 ```
 
-### Running a DogLang Program
-DogLang provides two ways to execute code:
+#### From PyPI
+Install DogLang directly using pip:
+```
+pip install doglang
+```
 
+### Running a DogLang Program
+
+#### If installed from GitHub:
 1. From a file:
    ```
    python doglang.py -f your_program.doggy
@@ -123,10 +131,21 @@ DogLang provides two ways to execute code:
    python doglang.py -e "a=10; bark(a);"
    ```
 
+#### If installed from pip:
+1. From a file:
+   ```
+   doglang -f your_program.doggy
+   ```
+
+2. Directly from the command line:
+   ```
+   doglang -e "a=10; bark(a);"
+   ```
+
 ### Additional Options
 - To view the tokens generated from your code:
   ```
-  python doglang.py -f your_program.doggy --tokens
+  doglang -f your_program.doggy --tokens
   ```
 
 ## File Extensions

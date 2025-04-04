@@ -93,15 +93,3 @@ class Interpreter:
         return eval(expression)
 
 
-if __name__ == "__main__":
-    code = """ a=0;
-                wagtail(a<10)
-                {
-                    sniff(a%2==0){
-                        bark(a);
-                    }
-                    a=a+1;
-                }
-            """
-    
-    Interpreter(code)

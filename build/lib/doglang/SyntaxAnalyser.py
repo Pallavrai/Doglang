@@ -154,28 +154,4 @@ class SyntaxAnalyser(SymbolTable):
 
 
 
-if __name__ == "__main__":
-    code = """a = 10;
-sniff(a%2==0){
-    bark("Even");
-}
-
-        
-            """
-    # code = """a=(10+2);
-    #           y=22;
-    #         """
-    tokens=Tokenizer(code)
-    # print(tokens)
-    parse=SyntaxAnalyser(tokens)
-    ast=parse.parse()    
-    print(ast)
-    # st=SymbolTable()
-    # print(st.lookup("a").value)
-    # print(st.lookup("y").value)
-    
-    
-
-
-
     

@@ -1,6 +1,6 @@
 Metadata-Version: 2.4
 Name: doglang
-Version: 0.1.0
+Version: 0.3.2
 Summary: A dog-themed programming language interpreter
 Home-page: https://github.com/Pallavrai/doglang
 Author: Pallav Rai
@@ -31,50 +31,6 @@ Dynamic: summary
 # 🐕 Welcome to DogLang!
 
 DogLang is a fun, interpreted programming language I created with syntax inspired by our canine friends. With keywords like `bark` for printing, `wagtail` for loops, and `sniff` for conditionals, it brings a playful approach to coding.
-
-## 🚀 Quick Start
-
-### Installation
-Install DogLang from PyPI:
-```bash
-pip install doglang
-```
-
-### Basic Usage
-1. Run the tutorial to learn the language:
-```bash
-python -m doglang.tutorial
-```
-
-2. Run a DogLang program:
-```bash
-doglang your_program.doggy
-```
-
-3. Or use the Python API:
-```python
-from doglang import Interpreter
-
-code = """
-a = 0;
-wagtail(a < 10) {
-    sniff(a % 2 == 0) {
-        bark(a);
-    }
-    a = a + 1;
-}
-"""
-
-interpreter = Interpreter(code)
-```
-
-### Development Installation
-If you want to contribute or modify the language:
-```bash
-git clone https://github.com/yourusername/doglang.git
-cd doglang
-pip install -e .
-```
 
 ## 🚀 Join the Pack!
 
@@ -176,15 +132,23 @@ This program asks the user for a number and then counts from that number up to 1
 ## How to Use DogLang
 
 ### Installation
+
+#### From GitHub
 Clone this repository to your local machine:
 ```
-git clone https://github.com/yourusername/doglang.git
+git clone https://github.com/pallavrai/doglang.git
 cd doglang
 ```
 
-### Running a DogLang Program
-DogLang provides two ways to execute code:
+#### From PyPI
+Install DogLang directly using pip:
+```
+pip install doglang
+```
 
+### Running a DogLang Program
+
+#### If installed from GitHub:
 1. From a file:
    ```
    python doglang.py -f your_program.doggy
@@ -192,13 +156,24 @@ DogLang provides two ways to execute code:
 
 2. Directly from the command line:
    ```
-   python doglang.py -e "a=10; bark(a)"
+   python doglang.py -e "a=10; bark(a);"
+   ```
+
+#### If installed from pip:
+1. From a file:
+   ```
+   doglang -f your_program.doggy
+   ```
+
+2. Directly from the command line:
+   ```
+   doglang -e "a=10; bark(a);"
    ```
 
 ### Additional Options
 - To view the tokens generated from your code:
   ```
-  python doglang.py -f your_program.doggy --tokens
+  doglang -f your_program.doggy --tokens
   ```
 
 ## File Extensions
@@ -229,10 +204,8 @@ DogLang programs use the `.doggy` file extension.
 - Limited error reporting
 
 ## Project Structure
-- `doglang.py`: Main entry point for the interpreter
 - `Tokenizer.py`: Lexical analyzer
 - `SyntaxAnalyser.py`: Parser
 - `SemanticAnalyser.py`: Semantic analyzer
 - `main.py`: Interpreter implementation
 - `SymbolTable.py`: Symbol table for variable management
-- `evaluator.py`: Expression evaluation
