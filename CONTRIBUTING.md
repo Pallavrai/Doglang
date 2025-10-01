@@ -204,7 +204,7 @@ entry_points={
 ## 🐕 Types of Contributions
 
 ### 1. New Language Features
-- Add new dog-themed keywords (see [`examples/Ideas`](examples/Ideas) for inspiration)
+- Add new dog-themed keywords (see [`examples/Ideas.md`](examples/Ideas.md) for inspiration)
 - Implement data types (arrays, booleans, floats)
 - Add built-in functions
 
