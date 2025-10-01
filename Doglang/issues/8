@@ -1,0 +1,17 @@
+Create a proper documentation folder in the repository to guide new learners on how to use Doglang in its current state. The documentation should include:
+
+- An introduction to the language
+- Installation and setup instructions
+- Usage examples
+- Language features overview
+- Frequently asked questions (FAQ)
+
+**Tasks:**
+- Add a `/docs` folder and populate it with relevant documentation files.
+- Add links to the docs folder in the main repository README.
+- Invite feedback and contributions to the documentation.
+
+**Benefits:**
+- Makes it easier for new learners to get started
+- Improves onboarding for contributors
+- Centralizes language resources
