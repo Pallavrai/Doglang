@@ -1,0 +1,13 @@
+site_name: Doglang Documentation
+site_url: https://pallavrai.github.io/Doglang
+nav:
+  - Home: index.md
+  - Installation: installation.md
+  - Usage: usage.md
+  - Features: features.md
+  - FAQ: faq.md
+  - Contributing: CONTRIBUTING.md
+theme:
+  name: readthedocs
+docs_dir: docs
+repo_url: https://github.com/pallavrai/Doglang
