@@ -1,6 +1,7 @@
 from doglang.SymbolTable import SymbolTable
 from doglang.SyntaxAnalyser import AST, SyntaxAnalyser
 from doglang.Tokenizer import Tokenizer
+from doglang.ExpressionParser import parse_and_evaluate
 
 class SemanticAnalyser:
     def __init__(self,ast:AST):
@@ -18,20 +19,15 @@ class SemanticAnalyser:
             self.traverseAST(target, child)
         
     def check(self, node:AST):
-        
         # node is assignment
-        expression=""
-        expression_type=node.children[1]
-        for element in expression_type.children: ## children[0] is expression then accessing children of expression
-            if element.type == "INT_LITERAL" or element.type == "ARITHMETIC_OP":
-                expression += element.value
-            elif element.type == "IDENTIFIER":
-                if self.symbol_table.lookup(element.value) is None:
-                    raise Exception("Variable not declared")
-                else:
-                    expression += str(self.symbol_table.lookup(element.value).value)
-
-        result = eval(expression)
+        expression_type = node.children[1]
+        
+        # Use the new expression parser instead of eval
+        try:
+            result = parse_and_evaluate(expression_type.children, self.symbol_table)
+        except Exception as e:
+            raise Exception(f"Error evaluating expression in semantic analysis: {str(e)}")
+        
         if self.symbol_table.lookup(node.children[0].value) is None:
             self.symbol_table.insert(name=node.children[0].value,type="int",scope="local", value = result)
         else:

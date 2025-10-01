@@ -1,0 +1,36 @@
+result1 = 2 + 3 * 4;
+bark("2 + 3 * 4 =");
+bark(result1);
+
+result2 = (2 + 3) * 4;
+bark("(2 + 3) * 4 =");
+bark(result2);
+
+result3 = 10 + 5 * 2 - 8 / 4;
+bark("10 + 5 * 2 - 8 / 4 =");
+bark(result3);
+
+num = 10;
+sniff(num % 2 == 0){
+    bark("10 is even");
+}
+
+a = 15;
+b = 20;
+sniff(a > 10 && b < 30){
+    bark("Both conditions are true");
+}
+
+x = 8;
+y = 12;
+sniff((x + y) > 15 && (y - x) < 10){
+    bark("Complex condition met");
+}
+
+negative = 0 - 5;
+result4 = negative + 10;
+bark("Result of -5 + 10 =");
+bark(result4);
+
+bark("All tests completed!");
+

@@ -3,6 +3,7 @@ from doglang.SyntaxAnalyser import SyntaxAnalyser
 from doglang.Tokenizer import Tokenizer
 from doglang.SemanticAnalyser import SemanticAnalyser
 from doglang.error import Error
+from doglang.ExpressionParser import parse_and_evaluate
 
 class Interpreter:
     def __init__(self,code):
@@ -79,17 +80,15 @@ class Interpreter:
           
             
     def expression_stmt(self,children):
-        expression=""
-        for child in children:
-            if child.type == "STRING_LITERAL":
-                 return child.value
-            if child.type == "IDENTIFIER":
-                if self.symbol_table.lookup(child.value) is None:
-                    raise Exception("Variable not declared")
-                else:
-                    expression += str(self.symbol_table.lookup(child.value).value)
-            else:
-                expression += child.value
-        return eval(expression)
+        # Check for simple string literal case
+        if len(children) == 1 and children[0].type == "STRING_LITERAL":
+            return children[0].value
+        
+        # Use the new expression parser instead of eval
+        try:
+            result = parse_and_evaluate(children, self.symbol_table)
+            return result
+        except Exception as e:
+            raise Exception(f"Error evaluating expression: {str(e)}")
 
 
