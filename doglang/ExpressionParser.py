@@ -69,7 +69,17 @@ class ExpressionParser:
     
     def parse(self):
         """Parse and evaluate the expression."""
-        return self.parse_expression(0)
+        result = self.parse_expression(0)
+        
+        # Validate that all tokens were consumed
+        if self.position < len(self.tokens):
+            remaining_token = self.tokens[self.position]
+            raise Exception(
+                f"Unexpected token '{remaining_token.value}' after expression. "
+                f"Missing operator between operands?"
+            )
+        
+        return result
     
     def parse_expression(self, min_precedence):
         """
