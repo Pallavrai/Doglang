@@ -29,6 +29,7 @@ Thumbs.db
 .pytest_cache/
 .coverage
 htmlcov/
-
+.python-version
 # Documentation
 docs/_build/
+site/ 

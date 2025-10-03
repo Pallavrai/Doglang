@@ -1,5 +1,8 @@
 site_name: Doglang Documentation
 site_url: https://pallavrai.github.io/Doglang
+site_description: A fun, dog-themed interpreted programming language
+site_author: Pallav Rai
+
 nav:
   - Home: index.md
   - Installation: installation.md
@@ -7,7 +10,56 @@ nav:
   - Features: features.md
   - FAQ: faq.md
   - Contributing: CONTRIBUTING.md
+
 theme:
-  name: readthedocs
+  name: material
+  palette:
+    # Light mode
+    - scheme: default
+      primary: brown
+      accent: orange
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    # Dark mode
+    - scheme: slate
+      primary: brown
+      accent: orange
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+  icon:
+    repo: fontawesome/brands/github
+  favicon: https://github.com/user-attachments/assets/44bd913d-d69b-4bfd-b12d-6a7cdc1f286b
+  logo: https://github.com/user-attachments/assets/44bd913d-d69b-4bfd-b12d-6a7cdc1f286b
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - admonition
+  - pymdownx.details
+  - pymdownx.tabbed:
+      alternate_style: true
+  - tables
+  - footnotes
+
 docs_dir: docs
+site_dir: site
+
 repo_url: https://github.com/pallavrai/Doglang
+repo_name: pallavrai/Doglang
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/pallavrai/Doglang
