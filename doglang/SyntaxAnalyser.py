@@ -1,7 +1,10 @@
 from doglang.Tokenizer import Tokens, Tokenizer
 from doglang.SymbolTable import SymbolTable
+# Import the custom exception you created
+from doglang.error import DogLangSyntaxError, DogLangError
 
 class AST:
+    # ... (Your AST class is fine, no changes needed) ...
     def __init__(self,type,value=None):
         self.type=type
         self.value=value
@@ -27,9 +30,6 @@ class AST:
         result += " " * indent + "])"
         return result
 
-class Error:
-    def __init__(self,error):
-        raise Exception(f'Syntax Error: {error}')
 
 class SyntaxAnalyser(SymbolTable):
     def __init__(self,token) -> None:
@@ -40,43 +40,61 @@ class SyntaxAnalyser(SymbolTable):
         if self.current < len(self.token):
             return self.token[self.current]
         return None
+        
     def increment(self):
         self.current+=1
     
+    # NEW HELPER FUNCTION to look ahead without consuming the token
+    def peek(self):
+        if self.current + 1 < len(self.token):
+            return self.token[self.current + 1]
+        return None
+
     def match(self,expected_type,expected_value=None):
         token=self.current_element()
         if not token:
-            Error(f"Unexpected end of input. Expected {expected_type}")
+            raise DogLangSyntaxError(f"Unexpected end of input. Expected {expected_type}")
         if token.token_type != expected_type or (expected_value is not None and token.value != expected_value):
-            Error(f"Expected {expected_type},{expected_value} but got {token}")
+            # Using the new error with line number for better feedback
+            raise DogLangSyntaxError(f"Expected {expected_type} '{expected_value}' but got {token.token_type} '{token.value}' at line {token.line}")
         self.increment()
         return token
-            
 
     #Grammar rules
-
     def parse(self):
         return self.program()
+
     def program(self):
         node=AST("Program")
-        while self.current<len(self.token):
+        while self.current < len(self.token):
             node.addchild(self.statement())
         return node
     
+    # KEY CHANGE IS HERE
     def statement(self):
-        token=self.current_element()
+        token = self.current_element()
         
-        if token.token_type == Tokens.KEYWORD and token.value=='bark':
-            return self.print_stmt()
+        if token.token_type == Tokens.KEYWORD:
+            if token.value == 'bark':
+                return self.print_stmt()
+            elif token.value == 'wagtail':
+                return self.loop_stmt()
+            elif token.value == 'sniff':
+                return self.conditional_statement()
+        
         elif token.token_type == Tokens.IDENTIFIER:
-            return self.assignment()
-        elif token.token_type == Tokens.KEYWORD and token.value=='wagtail':
-            return self.loop_stmt()
-        elif token.token_type == Tokens.KEYWORD and token.value=='sniff':
-            return self.conditional_statement()
-        else:
-            Error("Unexpected Token.")
+            # Look ahead to see if the next token is an '='
+            next_token = self.peek()
+            if next_token and next_token.token_type == Tokens.ASSIGNMENT_OP:
+                return self.assignment()
+            else:
+                # This is an identifier NOT followed by '=', so it's a typo
+                raise DogLangSyntaxError(f"Syntax Error: Unknown keyword '{token.value}' at line {token.line}")
+        
+        # If we get here, it's a token that can't start a statement
+        raise DogLangSyntaxError(f"Unexpected token '{token.value}' at line {token.line}")
 
+    # ... (rest of your file is fine) ...
     def loop_stmt(self):
         node=AST("loop")
         self.match(Tokens.KEYWORD,'wagtail')
@@ -85,7 +103,6 @@ class SyntaxAnalyser(SymbolTable):
         while self.current_element().value != '}':
             node.addchild(self.statement())
         self.match(Tokens.CURLY_BRACE,'}')
-
         return node
     
     def assignment(self): 
@@ -95,7 +112,6 @@ class SyntaxAnalyser(SymbolTable):
         self.match(Tokens.IDENTIFIER) # identifier
         self.match(Tokens.ASSIGNMENT_OP,'=')  #checks for = 
         node.addchild(self.expressions())
-
         return node
     
     def code_block(self):
@@ -114,6 +130,7 @@ class SyntaxAnalyser(SymbolTable):
         if(self.current_element() and self.current_element().value == 'else'):
             node.addchild(self.else_statement())
         return node
+
     def else_statement(self):
         node = AST(Tokens.KEYWORD,"else")
         self.match(Tokens.KEYWORD)
@@ -122,14 +139,11 @@ class SyntaxAnalyser(SymbolTable):
 
     def expressions(self):
         token=self.current_element()
-
         if token.token_type == Tokens.KEYWORD:
             if token.value == "fetch":
                 self.match(Tokens.KEYWORD,'fetch')
                 node = AST(Tokens.KEYWORD,"input")
                 node.addchild(self.expressions())
-
-
         if token.token_type == Tokens.INT_LITERAL or token.token_type == Tokens.PARENTHESIS or token.token_type == Tokens.IDENTIFIER:
             node=AST("expression")
             while self.current_element().value != ';':
@@ -137,21 +151,11 @@ class SyntaxAnalyser(SymbolTable):
                     return node
                 node.addchild(AST(self.current_element().token_type,self.current_element().value))
                 self.increment()
-            
             self.increment()
-          
         return node
-
 
     def print_stmt(self):
         node=AST("print")
         self.match(Tokens.KEYWORD,'bark') #bark keyword
         node.addchild(self.expressions())
-
         return node
-
-    
-
-
-
-    

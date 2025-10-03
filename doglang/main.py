@@ -2,7 +2,7 @@ from doglang.SymbolTable import SymbolTable
 from doglang.SyntaxAnalyser import SyntaxAnalyser
 from doglang.Tokenizer import Tokenizer
 from doglang.SemanticAnalyser import SemanticAnalyser
-from doglang.error import Error
+from doglang.error import DogLangError
 
 class Interpreter:
     def __init__(self,code):
@@ -52,7 +52,7 @@ class Interpreter:
                              if len(children) > 2:
                                 self.visit(children[2].children[0])
                    else:
-                        Error("Type","Value inside sniff is not boolean.")
+                        DogLangErrorError("Type","Value inside sniff is not boolean.")
     
     def print_stmt(self,children):
             for child in children:
