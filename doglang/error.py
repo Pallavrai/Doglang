@@ -1,3 +1,7 @@
-class Error:
-    def __init__(self,stage,error):
-        raise Exception(f'{stage} Error: {error}')
+class DogLangError(Exception):
+    """Base exception class for all errors in DogLang."""
+    pass
+
+class DogLangSyntaxError(DogLangError):
+    """Exception raised for syntax errors found during parsing."""
+    pass
