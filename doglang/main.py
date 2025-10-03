@@ -87,7 +87,7 @@ class Interpreter:
                 if self.symbol_table.lookup(child.value) is None:
                     raise Exception("Variable not declared")
                 else:
-                    expression += str(self.symbol_table.lookup(child.value).value)
+                    expression += str(self.symbol_table.lookup(child.value)['value'])
             else:
                 expression += child.value
         return eval(expression)
