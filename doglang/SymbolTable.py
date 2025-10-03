@@ -1,34 +1,20 @@
-"""Symbol Table(name,type,scope,value)"""
+class Symbol:
+    def __init__(self, name, type, value=None):
+        self.name = name
+        self.type = type
+        self.value = value
 
 class SymbolTable:
-    # __init__ creates an instance-specific list.
     def __init__(self):
-        self.symbols=[]
+        self._symbols = {}
 
-    def insert(self,name,type,scope,value):
+    def insert(self, name, type, value=None):
+        self._symbols[name] = Symbol(name, type, value)
 
-        symbol_entry = {'name': name, 'type': type, 'scope': scope, 'value': value}
-        self.symbols.append(symbol_entry)
-    
-    def lookup(self,name):
-        for entry in self.symbols:
-            if entry['name']==name:
-                return entry     # Returns the dictionary
-        return None
-    
-    # modifies the instance list.
-    def modify(self,name,value):
-        for entry in self.symbols:
-            if entry['name']==name:
-                entry['value'] = value
-                return
-        return None
-    
-    def __repr__(self):
-        if not self.symbols:
-            return "Symbol Table is empty"
+    def lookup(self, name):
+        return self._symbols.get(name)
 
-        result=""
-        for entry in self.symbols:
-            result += f" name : {entry['name']} | value : {entry['value']} | type : {entry['type']} | scope : {entry['scope']}\n"
-        return result
+    def modify(self, name, value):
+        symbol = self.lookup(name)
+        if symbol:
+            symbol.value = value
