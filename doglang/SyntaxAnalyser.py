@@ -27,9 +27,24 @@ class AST:
         result += " " * indent + "])"
         return result
 
+
+class SyntaxErrorDogLang(Exception):
+    """Custom Syntax Error for DogLang"""
+    def __init__(self, message, token=None):
+        if token:
+            error_msg = f"[Line {token.line}, Col {token.column}] Syntax Error: {message}. Found '{token.value}'"
+        else:
+            error_msg = f"Syntax Error: {message}"
+        super().__init__(error_msg)
+        
+# class Error:
+#     def __init__(self,error):
+#         raise Exception(f'Syntax Error: {error}')
+
 class Error:
-    def __init__(self,error):
-        raise Exception(f'Syntax Error: {error}')
+    @staticmethod
+    def raise_error(message, token=None):
+        raise SyntaxErrorDogLang(message, token)
 
 class SyntaxAnalyser(SymbolTable):
     def __init__(self,token) -> None:
@@ -45,10 +60,17 @@ class SyntaxAnalyser(SymbolTable):
     
     def match(self,expected_type,expected_value=None):
         token=self.current_element()
+        # if not token:
+        #     Error(f"Unexpected end of input. Expected {expected_type}")
+        # if token.token_type != expected_type or (expected_value is not None and token.value != expected_value):
+        #     # Error(f"Expected {expected_type},{expected_value} but got {token}")
+        #     Error.raise_error("Unexpected Token.", token)
         if not token:
-            Error(f"Unexpected end of input. Expected {expected_type}")
+            Error.raise_error(f"Unexpected end of input. Expected {expected_type}", None)
         if token.token_type != expected_type or (expected_value is not None and token.value != expected_value):
-            Error(f"Expected {expected_type},{expected_value} but got {token}")
+            Error.raise_error(f"Expected {expected_type} {expected_value if expected_value else ''}", token)
+
+
         self.increment()
         return token
             
@@ -75,7 +97,9 @@ class SyntaxAnalyser(SymbolTable):
         elif token.token_type == Tokens.KEYWORD and token.value=='sniff':
             return self.conditional_statement()
         else:
-            Error("Unexpected Token.")
+            # Error("Unexpected Token.")
+            Error.raise_error("Unexpected Token.", token)
+
 
     def loop_stmt(self):
         node=AST("loop")
@@ -153,5 +177,3 @@ class SyntaxAnalyser(SymbolTable):
     
 
 
-
-    
