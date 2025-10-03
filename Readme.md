@@ -33,12 +33,25 @@ DogLang is a programming language with the following components:
 ## Language Features
 
 - Variable assignments
-- Arithmetic operations
+- Arithmetic operations with proper operator precedence
 - Conditional statements (sniff)
 - Loop constructs (wagtail)
 - Print statements (bark)
 - Input (fetch)
 - Comparison operators
+- Logical operators (&&, ||, !)
+- **Custom operator precedence parser** (replaces eval for improved security)
+
+### Expression Parsing
+
+DogLang now features a custom-built **operator precedence parser** that evaluates expressions safely and efficiently. This eliminates the use of Python's `eval()` function, providing:
+
+- **Enhanced Security**: No arbitrary code execution
+- **Better Error Handling**: Clear, informative error messages
+- **Full Control**: Custom operator precedence and behavior
+- **Improved Performance**: Direct evaluation without string conversion
+
+For detailed information about operator precedence and expression parsing, see [OPERATOR_PRECEDENCE.md](docs/OPERATOR_PRECEDENCE.md).
 
 ## Syntax Guide
 
@@ -155,9 +168,40 @@ DogLang programs use the `.doggy` file extension.
 - `else`: Alternative branch for conditionals
 
 ### Operators
-- Arithmetic: `+`, `-`, `*`, `/`, `%`
-- Comparison: `==`, `!=`, `>`, `<`, `>=`, `<=`
-- Assignment: `=`
+
+#### Arithmetic Operators
+- `+`: Addition
+- `-`: Subtraction
+- `*`: Multiplication
+- `/`: Division
+- `%`: Modulo
+
+#### Comparison Operators
+- `==`: Equal to
+- `!=`: Not equal to
+- `>`: Greater than
+- `<`: Less than
+- `>=`: Greater than or equal to
+- `<=`: Less than or equal to
+
+#### Logical Operators
+- `&&`: Logical AND
+- `||`: Logical OR
+- `!`: Logical NOT
+
+#### Assignment Operator
+- `=`: Assignment
+
+#### Operator Precedence
+Operators follow standard precedence rules (see [documentation](docs/OPERATOR_PRECEDENCE.md)):
+1. Parentheses `()`
+2. Unary operators `!`, `-`
+3. Multiplicative `*`, `/`, `%`
+4. Additive `+`, `-`
+5. Comparison `<`, `>`, `<=`, `>=`
+6. Equality `==`, `!=`
+7. Logical AND `&&`
+8. Logical OR `||`
 
 ## Tips for Writing DogLang Programs
 1. Each statement should end with a semicolon (optional in some contexts)
@@ -173,5 +217,20 @@ DogLang programs use the `.doggy` file extension.
 - `Tokenizer.py`: Lexical analyzer
 - `SyntaxAnalyser.py`: Parser
 - `SemanticAnalyser.py`: Semantic analyzer
+- `ExpressionParser.py`: Operator precedence parser for expressions
 - `main.py`: Interpreter implementation
 - `SymbolTable.py`: Symbol table for variable management
+- `tests/`: Unit and integration tests
+
+## Testing
+
+Run the test suite to verify everything works correctly:
+
+```bash
+# Run all tests
+python tests/__init__.py
+
+# Run specific test files
+python -m unittest tests.test_expression_parser -v
+python -m unittest tests.test_integration -v
+```
