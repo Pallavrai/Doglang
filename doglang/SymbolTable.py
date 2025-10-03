@@ -1,24 +1,20 @@
-"""Symbol Table(name,type,scope,value)"""
-symbols=[]
-class SymbolTable:
-    def __init__(self,name="",type="",scope="",value=""):
-        self.name=name
-        self.type=type
-        self.scope=scope
-        self.value=value
+class Symbol:
+    def __init__(self, name, type, value=None):
+        self.name = name
+        self.type = type
+        self.value = value
 
-    def insert(self,name,type,scope,value):
-        symbols.append(SymbolTable(name,type,scope,value))
-    
-    def lookup(self,name):
-        for entry in symbols:
-            if entry.name==name:
-                return entry
-        return None
-    
-    def modify(self,name,value):
-        for entry in symbols:
-            if entry.name==name:
-                entry.value=value
-                return
-        return None
+class SymbolTable:
+    def __init__(self):
+        self._symbols = {}
+
+    def insert(self, name, type, value=None):
+        self._symbols[name] = Symbol(name, type, value)
+
+    def lookup(self, name):
+        return self._symbols.get(name)
+
+    def modify(self, name, value):
+        symbol = self.lookup(name)
+        if symbol:
+            symbol.value = value
