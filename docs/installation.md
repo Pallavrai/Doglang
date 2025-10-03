@@ -7,7 +7,7 @@ Welcome to Doglang! Follow the instructions below to get started quickly with in
 The easiest way to install Doglang is via Python's package manager `pip`. This option installs Doglang globally so you can run it from the command line anywhere.
 
 ### Requirements
-- Python 3.7 or higher
+- Python 3.6 or higher
 - pip installed (usually included with Python)
 
 ### Installation Command
@@ -28,11 +28,18 @@ This should display the Doglang command line usage information.
 
 ---
 
-## Option 2: Clone from GitHub
+## Option 2: Install from GitHub Repository
 
-You can also clone the Doglang source repository to your local machine and run it directly.
+You can install Doglang directly from the GitHub repository.
 
-### Steps
+### Method A: Direct Install from GitHub
+
+Install directly using pip:
+```bash
+pip install git+https://github.com/Pallavrai/Doglang.git
+```
+
+### Method B: Clone and Install Locally
 
 1. Clone the repository:
 ```bash
@@ -41,32 +48,36 @@ git clone https://github.com/Pallavrai/Doglang.git
 
 2. Change into the project directory:
 ```bash
-cd Doglang
+cd doglang
 ```
 
-3. (Optional) It is recommended to use a Python virtual environment:
+3. Install the package:
 ```bash
-python -m venv venv
-source venv/bin/activate # On Windows use venv\Scripts\activate
+pip install .
 ```
 
-4. Install required dependencies:
+**For development (editable install):**
 ```bash
-pip install -r requirements.txt
+pip install -e .
+```
+
+This allows you to make changes to the source code and see them reflected immediately without reinstalling.
+
+### Verify Installation
+
+After installation, verify it works:
+```bash
+doglang --help
 ```
 
 ---
 
 ## Running Doglang Programs
 
+Once installed (via any method above), use the `doglang` command:
+
 ### Running a program from a file
 
-If you cloned the repo, run:
-```bash
-python doglang.py -f your_program.doggy
-```
-
-If installed via PyPI:
 ```bash
 doglang -f your_program.doggy
 ```
@@ -74,32 +85,122 @@ doglang -f your_program.doggy
 ### Running code directly from command line
 
 Execute inline commands:
-
-If cloned:
 ```bash
-python doglang.py -e "a = 10; bark(a);"
+doglang -e "a = 10; bark(a);"
+```
+
+### Example with sample files
+
+Try the included examples:
+```bash
+doglang -f examples/prog1.doggy
+doglang -f examples/conditions.doggy
 ```
 
 ---
 
 ## Additional Options
 
-- To see the tokens generated from your code (for debugging):
+### View Tokens (for debugging)
+
+To see the tokens generated from your code:
 ```bash
 doglang -f your_program.doggy --tokens
+```
+
+### Help Command
+
+View all available options:
+```bash
+doglang --help
+```
+
+---
+
+## Using a Virtual Environment (Recommended)
+
+It's good practice to use a virtual environment:
+
+```bash
+# Create virtual environment
+python -m venv venv
+
+# Activate it
+# On macOS/Linux:
+source venv/bin/activate
+# On Windows:
+venv\Scripts\activate
+
+# Install Doglang
+pip install doglang
+# OR install from local clone
+pip install .
+
+# When done, deactivate
+deactivate
+```
+
+---
+
+## Troubleshooting
+
+### Command Not Found
+
+If `doglang` command is not found after installation:
+
+1. Make sure pip's bin directory is in your PATH
+2. Try using the full path:
+   ```bash
+   python -m doglang.cli -f your_program.doggy
+   ```
+
+3. Or reinstall with:
+   ```bash
+   pip install --force-reinstall doglang
+   ```
+
+### Permission Errors
+
+On some systems, you might need to use `pip install --user`:
+```bash
+pip install --user doglang
+```
+
+Or use `sudo` (not recommended):
+```bash
+sudo pip install doglang
+```
+
+### Import Errors
+
+If you get import errors, ensure you're in the correct directory and the package is properly installed:
+```bash
+pip show doglang  # Check if installed
+pip install --upgrade doglang  # Upgrade to latest version
 ```
 
 ---
 
 ## Notes
 
-- Doglang source files use the `.doggy` extension.
-- Make sure your Python environment is set up correctly for the above commands to work.
-- If you encounter issues, check your Python and pip versions or raise an issue in the GitHub repo.
+- Doglang source files use the `.doggy` extension
+- Make sure your Python version is 3.6 or higher: `python --version`
+- The `doglang` command is available globally after installation
+- No need to run `python doglang.py` - that file doesn't exist as an entry point
+- If you encounter issues, check your Python and pip versions or raise an issue in the [GitHub repo](https://github.com/Pallavrai/Doglang)
 
 ---
 
-Enjoy coding with Doglang!
+## Uninstalling
+
+To remove Doglang:
+```bash
+pip uninstall doglang
+```
+
+---
+
+Enjoy coding with Doglang! 🐾
 
 
 
