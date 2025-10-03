@@ -1,0 +1,59 @@
+[project]
+name = "doglang"
+version = "1.0.0-alpha"
+description = "A fun, dog-themed interpreted programming language"
+readme = "README.md"
+requires-python = ">=3.6"
+license = { text = "MIT" }
+authors = [
+    { name = "Pallav Rai", email = "pallavrai8953@gmail.com" }
+]
+keywords = ["programming-language", "interpreter", "dog-themed", "educational"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Education",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.6",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development :: Interpreters",
+]
+dependencies = []
+
+[project.optional-dependencies]
+docs = [
+    "mkdocs>=1.5.0",
+    "mkdocs-material>=9.0.0",
+]
+dev = [
+    "mkdocs>=1.5.0",
+    "mkdocs-material>=9.0.0",
+    "build>=1.0.0",
+    "twine>=4.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/Pallavrai/Doglang"
+Documentation = "https://pallavrai.github.io/Doglang"
+Repository = "https://github.com/Pallavrai/Doglang"
+Issues = "https://github.com/Pallavrai/Doglang/issues"
+
+[project.scripts]
+doglang = "doglang.cli:main"
+
+[build-system]
+requires = ["setuptools>=45", "wheel", "setuptools-scm[toml]>=6.2"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["doglang"]
+
+[tool.setuptools.package-data]
+doglang = ["*.py"]

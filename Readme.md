@@ -1,8 +1,13 @@
+
 # DogLang Programming Language
 
 # 🐕 Welcome to DogLang!
 
 DogLang is a fun, interpreted programming language I created with syntax inspired by our canine friends. With keywords like `bark` for printing, `wagtail` for loops, and `sniff` for conditionals, it brings a playful approach to coding.
+
+<p align="center">
+<img width="200" height="200" alt="doglang" src="https://github.com/user-attachments/assets/44bd913d-d69b-4bfd-b12d-6a7cdc1f286b" />
+</p>
 
 ## 🚀 Join the Pack!
 
@@ -123,6 +128,7 @@ Clone this repository to your local machine:
 ```
 git clone https://github.com/pallavrai/doglang.git
 cd doglang
+pip install .
 ```
 
 #### From PyPI
@@ -133,18 +139,6 @@ pip install doglang
 
 ### Running a DogLang Program
 
-#### If installed from GitHub:
-1. From a file:
-   ```
-   python doglang.py -f your_program.doggy
-   ```
-
-2. Directly from the command line:
-   ```
-   python doglang.py -e "a=10; bark(a);"
-   ```
-
-#### If installed from pip:
 1. From a file:
    ```
    doglang -f your_program.doggy
