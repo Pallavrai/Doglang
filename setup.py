@@ -1,9 +1,12 @@
 from setuptools import setup, find_packages
-from setuptools.command.install import install
 import os
 
-with open("README.md", "r", encoding="utf-8") as fh:
-    long_description = fh.read()
+readme_path = os.path.join(os.path.dirname(__file__), "README.md")
+if os.path.exists(readme_path):
+    with open(readme_path, "r", encoding="utf-8") as fh:
+        long_description = fh.read()
+else:
+    long_description = "A dog-themed programming language interpreter"
 
 setup(
     name="doglang",
@@ -24,6 +27,8 @@ setup(
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
+        "Programming Language :: Python :: 3.11",
     ],
     python_requires=">=3.6",
     entry_points={
@@ -31,5 +36,4 @@ setup(
             "doglang=doglang.cli:main",
         ],
     },
-   
-) 
+)
