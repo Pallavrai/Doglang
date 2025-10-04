@@ -30,5 +30,5 @@ class SymbolTable:
 
         result=""
         for entry in self.symbols:
-            result += f" name : {entry['name']} | value : {entry["value"]} | type : {entry['type']} | scope : {entry['scope']}\n"
+            result += f" name : {entry['name']} | value : {entry['value']} | type : {entry['type']} | scope : {entry['scope']}\n"
         return result
