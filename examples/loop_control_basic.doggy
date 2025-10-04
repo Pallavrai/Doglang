@@ -1,0 +1,37 @@
+# Basic Loop Control Examples
+# This file demonstrates heel (break) and stay (continue) statements
+
+# Example 1: Using heel to break out of a loop early
+bark "Example 1: Breaking out of loop at 3";
+i = 0;
+wagtail i < 5 {
+    bark i;
+    i = i + 1;
+    sniff i == 3 {
+        heel;
+    }
+}
+
+# Example 2: Using stay to skip iterations
+bark "Example 2: Skipping even numbers";
+i = 0;
+wagtail i < 10 {
+    i = i + 1;
+    sniff i % 2 == 0 {
+        stay;
+    }
+    bark i;
+}
+
+# Example 3: Breaking when a condition is met
+bark "Example 3: Breaking when sum exceeds 10";
+sum = 0;
+i = 1;
+wagtail i <= 10 {
+    sum = sum + i;
+    bark sum;
+    sniff sum == 10 {
+        heel;
+    }
+    i = i + 1;
+}

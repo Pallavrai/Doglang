@@ -28,6 +28,28 @@ a = a + 1;
 }
 ```
 
+- **Loop Control (`heel` and `stay`)**  
+Control loop execution with break and continue:
+```bash
+# heel - break out of loop immediately
+wagtail(i < 10) {
+    bark(i);
+    if i == 5 {
+        heel;  # Exit loop when i equals 5
+    }
+    i = i + 1;
+}
+
+# stay - skip to next iteration
+wagtail(i < 10) {
+    i = i + 1;
+    if i % 2 == 0 {
+        stay;  # Skip even numbers
+    }
+    bark(i);
+}
+```
+
 - **Conditionals (`sniff` / `else`)**  
 Branch execution based on conditions:
 ```bash
@@ -70,6 +92,7 @@ name = fetch("Enter your name: ");
 - Currently supports only integer and string data types.
 - No functions or user-defined procedures yet.
 - Basic error reporting without detailed debug info.
+- Loop control statements (`heel` and `stay`) must be used inside loops.
 
 ---
 

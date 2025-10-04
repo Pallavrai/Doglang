@@ -33,7 +33,7 @@ class Tokens:
     COMMENT = 'COMMENT'
 
 
-keywords = {'bark','wagtail','fetch','sniff','else'}
+keywords = {'bark','wagtail','fetch','sniff','else','heel','stay'}
 
 
 arithmetic_operators = {'+', '-', '*', '/', '%'}
@@ -50,6 +50,9 @@ def Tokenizer(code):
 
     # Process the code line by line to get the line number
     for line_number, line in enumerate(code.splitlines(), 1):
+        # Skip comment lines
+        if line.strip().startswith('#'):
+            continue
         pattern = r'"(?:\\.|[^"\\])*"|[A-Za-z_]\w*|\d+|==|!=|>=|<=|&&|\|\||[+\-*/%]=?|[(){};,]|[<>]|='
         tokenized_line = re.findall(pattern, line)
 
