@@ -20,6 +20,15 @@ class SymbolTable:
     def modify(self,name,value):
         for entry in self.symbols:
             if entry['name']==name:
-                entry['value']=value
+                entry['value'] = value
                 return
         return None
+    
+    def __repr__(self):
+        if not self.symbols:
+            return "Symbol Table is empty"
+
+        result=""
+        for entry in self.symbols:
+            result += f" name : {entry['name']} | value : {entry["value"]} | type : {entry['type']} | scope : {entry['scope']}\n"
+        return result
