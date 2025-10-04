@@ -1,0 +1,11 @@
+# Simple stay test
+bark "Testing stay (continue)";
+i = 0;
+wagtail i < 5 {
+    i = i + 1;
+    sniff i == 3 {
+        stay;
+    }
+    bark i;
+}
+bark "Loop finished";

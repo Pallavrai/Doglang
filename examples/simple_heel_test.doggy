@@ -1,0 +1,11 @@
+# Simple heel test
+bark "Testing heel (break)";
+i = 0;
+wagtail i < 5 {
+    bark i;
+    i = i + 1;
+    sniff i == 3 {
+        heel;
+    }
+}
+bark "Loop finished";
