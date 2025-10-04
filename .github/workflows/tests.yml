@@ -1,4 +1,4 @@
-name: Run Tests
+name: Run DogLang Tests
 
 on:
   pull_request:
