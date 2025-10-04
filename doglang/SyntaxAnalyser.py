@@ -68,7 +68,7 @@ class SyntaxAnalyser(SymbolTable):
             node.addchild(self.statement())
         return node
     
-    # --- THIS IS THE KEY CHANGE ---
+
     def statement(self):
         token=self.current_element()
         
@@ -142,7 +142,7 @@ class SyntaxAnalyser(SymbolTable):
                 self.match(Tokens.KEYWORD,'fetch')
                 node = AST(Tokens.KEYWORD,"input")
                 node.addchild(self.expressions())
-                return node # Return early for fetch expression
+                return node 
 
         node=AST("expression")
         while self.current_element() and self.current_element().value != ';':

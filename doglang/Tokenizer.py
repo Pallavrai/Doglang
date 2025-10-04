@@ -1,18 +1,16 @@
 import re
-# It's good practice to import your custom error here, even if not used directly
-# as it makes dependencies clear.
 from .error import DogLangSyntaxError 
 
 
 class Token:
-    # Add 'line' to the constructor
+   
     def __init__(self, token_type, value, line):
         self.token_type = token_type
         self.value = value
         self.line = line
 
     def __repr__(self):
-        # Include the line number in the representation for easier debugging
+       
         return f"\nToken({self.token_type}, '{self.value}', line={self.line})"
 
 
@@ -82,9 +80,8 @@ def Tokenizer(code):
             elif word == semicolon:
                 tokens.append(Token(Tokens.SEMICOLON, word, line_number))
             else:
-                # For now, we still just print. The Syntax Analyser will handle the logic.
-                # A more advanced tokenizer might raise an error here for invalid characters.
-                print(f"Unrecognized token: {word}")
+                # Raise a syntax error for unrecognized tokens
+                raise DogLangSyntaxError(f"Unrecognized token '{word}' at line {line_number}")
 
     return tokens
 
