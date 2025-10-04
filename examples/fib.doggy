@@ -1,0 +1,10 @@
+a = 0;
+b = 1;
+count = 0;
+wagtail(count < 10) {
+    bark(a);
+    temp = a + b;
+    a = b;
+    b = temp;
+    count = count + 1;
+}
