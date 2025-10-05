@@ -84,10 +84,11 @@ class Interpreter:
             if child.type == "STRING_LITERAL":
                  return child.value
             if child.type == "IDENTIFIER":
-                if self.symbol_table.lookup(child.value) is None:
+                entry=self.symbol_table.lookup(child.value) 
+                if entry is None:
                     raise Exception("Variable not declared")
                 else:
-                    expression += str(self.symbol_table.lookup(child.value)['value']) # just call lookup and get value
+                    expression += str(entry['value']) # just call lookup and get value
             else:
                 expression += child.value
         return eval(expression)
