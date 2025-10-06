@@ -3,6 +3,7 @@ from doglang.SyntaxAnalyser import SyntaxAnalyser
 from doglang.Tokenizer import Tokenizer
 from doglang.SemanticAnalyser import SemanticAnalyser
 from doglang.error import DogLangError
+from doglang.loopcontrol import execute_heel_statement, execute_stay_statement, should_break_loop, should_continue_loop, reset_loop_control, enter_loop_context, exit_loop_context
 
 class Interpreter:
     def __init__(self,code):
@@ -26,6 +27,10 @@ class Interpreter:
                 self.loop_stmt(ast.children)
         elif ast.type == "conditional":
                 self.conditions(ast.children)
+        elif ast.type == "heel":
+                self.heel_stmt()
+        elif ast.type == "stay":
+                self.stay_stmt()
 
     def assignment(self,children):
          name = children[0].value
@@ -64,20 +69,59 @@ class Interpreter:
 
     
     def loop_stmt(self,children):
-            # First, evaluate the condition
-            condition_node = next((child for child in children if child.type == "expression"), None)
-            body_nodes = [child for child in children if child.type != "expression"]
+            # Enter loop context
+            enter_loop_context()
             
-            if condition_node:
-                condition = self.expression_stmt(condition_node.children)
-                if condition:
-                    # Execute the body of the loop
-                    for node in body_nodes:
-                        self.visit(node)
-                    # Then check the condition again (recursively)
-                    self.loop_stmt(children)
+            try:
+                # Get condition and body nodes
+                condition_node = next((child for child in children if child.type == "expression"), None)
+                body_nodes = [child for child in children if child.type != "expression"]
+                
+                if condition_node:
+                    # Main loop - keep running while condition is true
+                    while True:
+                        # Check condition at start of each iteration
+                        condition = self.expression_stmt(condition_node.children)
+                        if not condition:
+                            break
+                        
+                        # Execute the body of the loop
+                        for node in body_nodes:
+                            # Check for break before executing each statement
+                            if should_break_loop():
+                                return  # Exit the entire loop
+                            
+                            # Check for continue before executing each statement
+                            if should_continue_loop():
+                                reset_loop_control()
+                                break  # Skip to next iteration
+                            
+                            self.visit(node)
+                            
+                            # Check for break after executing each statement
+                            if should_break_loop():
+                                return  # Exit the entire loop
+                            
+                            # Check for continue after executing each statement
+                            if should_continue_loop():
+                                reset_loop_control()
+                                break  # Skip to next iteration
+                        
+                        # Reset loop control flags for next iteration
+                        reset_loop_control()
+            finally:
+                # Always exit loop context
+                exit_loop_context()
           
             
+    def heel_stmt(self):
+        """Execute a heel (break) statement"""
+        execute_heel_statement()
+    
+    def stay_stmt(self):
+        """Execute a stay (continue) statement"""
+        execute_stay_statement()
+
     def expression_stmt(self,children):
         expression=""
         for child in children:

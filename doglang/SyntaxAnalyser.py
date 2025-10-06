@@ -79,6 +79,10 @@ class SyntaxAnalyser(SymbolTable):
                 return self.loop_stmt()
             elif token.value=='sniff':
                 return self.conditional_statement()
+            elif token.value=='heel':
+                return self.heel_stmt()
+            elif token.value=='stay':
+                return self.stay_stmt()
         
         elif token.token_type == Tokens.IDENTIFIER:
             # Look ahead to see if the next token is an assignment operator
@@ -161,4 +165,22 @@ class SyntaxAnalyser(SymbolTable):
         node=AST("print")
         self.match(Tokens.KEYWORD,'bark') #bark keyword
         node.addchild(self.expressions())
+        return node
+    
+    def heel_stmt(self):
+        """Parse a heel (break) statement"""
+        node = AST("heel")
+        self.match(Tokens.KEYWORD, 'heel')
+        # heel statements should end with semicolon
+        if self.current_element() and self.current_element().value == ';':
+            self.match(Tokens.SEMICOLON, ';')
+        return node
+    
+    def stay_stmt(self):
+        """Parse a stay (continue) statement"""
+        node = AST("stay")
+        self.match(Tokens.KEYWORD, 'stay')
+        # stay statements should end with semicolon
+        if self.current_element() and self.current_element().value == ';':
+            self.match(Tokens.SEMICOLON, ';')
         return node
