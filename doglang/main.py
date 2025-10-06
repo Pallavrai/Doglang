@@ -69,13 +69,11 @@ class Interpreter:
             body_nodes = [child for child in children if child.type != "expression"]
             
             if condition_node:
-                condition = self.expression_stmt(condition_node.children)
-                if condition:
-                    # Execute the body of the loop
+                # Use an iterative while loop instead of recursion
+                while self.expression_stmt(condition_node.children):
+                    # Execute each statement in the loop body
                     for node in body_nodes:
                         self.visit(node)
-                    # Then check the condition again (recursively)
-                    self.loop_stmt(children)
           
             
     def expression_stmt(self,children):
