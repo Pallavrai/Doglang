@@ -1,5 +1,5 @@
-from doglang.main import Interpreter
-from doglang.error import DogLangError
+from .main import Interpreter
+from .error import DogLangError, SemanticError
 
 __version__ = "1.0.0-alpha"
-__all__ = ["Interpreter", "Error"]
+__all__ = ["Interpreter", "DogLangError", "SemanticError"]

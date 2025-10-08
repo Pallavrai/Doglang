@@ -5,3 +5,7 @@ class DogLangError(Exception):
 class DogLangSyntaxError(DogLangError):
     """Exception raised for syntax errors found during parsing."""
     pass
+
+class SemanticError(DogLangError):
+    """For errors found by the semantic analyser."""
+    pass
